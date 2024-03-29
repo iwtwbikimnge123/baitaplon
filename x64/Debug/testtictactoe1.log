@@ -1,0 +1,13 @@
+﻿  choosetictactoe.cpp
+  choosetictactoe.h
+  gametictactoe.cpp
+  playgame.cpp
+  Common.cpp
+  game.cpp
+  main.cpp
+  menu1.cpp
+  menu2.cpp
+  text.cpp
+  Generating Code...
+x64\Debug\choosetictactoe.obj : warning LNK4042: object specified more than once; extras ignored
+  testtictactoe1.vcxproj -> C:\Users\Admin\OneDrive - National Economics University\Documents\testtictactoe1 - Copy\x64\Debug\testtictactoe1.exe
