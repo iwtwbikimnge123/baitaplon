@@ -9,6 +9,10 @@ MenuStart::MenuStart() {
 	start.SetPath();
 	start.SetRect(150, 450, 200, 110);
 
+	focusStart.SetButtonType(FOCUSSTART);
+	focusStart.SetPath();
+	focusStart.SetRect(150, 450, 200, 110);
+
 	base.SetButtonType(BASE);
 	base.SetPath();
 
@@ -195,6 +199,16 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				chooseSize15x15.RenderButton();
 				SDL_RenderPresent(gRenderer);
 				chooseSizeStatus = 2;
+			}
+		}
+		else if (e.type = SDL_MOUSEMOTION) {
+			if (CheckClick(start.GetRect(), e.motion.x, e.motion.y)) {
+				focusStart.RenderButton();
+				SDL_RenderPresent(gRenderer);
+			}
+			else {
+				start.RenderButton();
+				SDL_RenderPresent(gRenderer);
 			}
 		}
 	}

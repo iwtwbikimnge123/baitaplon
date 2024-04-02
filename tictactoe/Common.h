@@ -44,6 +44,7 @@ enum MenuType {
 
 enum ButtonType {
 	START,
+	FOCUSSTART,
 	BASE,
 	CHOOSEPLAYER_1,
 	CHOOSEPLAYER_2,

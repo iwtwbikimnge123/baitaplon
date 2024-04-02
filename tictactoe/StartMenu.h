@@ -4,6 +4,7 @@
 class MenuStart{
 private:
 	Button start;
+	Button focusStart;
 	Button choosePlayer1;
 	Button choosePlayer2;
 	Button chooseSize3x3;
