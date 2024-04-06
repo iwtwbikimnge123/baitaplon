@@ -4,7 +4,7 @@ SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
 Mix_Chunk* gChunk = NULL;
 
-MenuType menutype = STARTMENU;
+MenuType menuType = STARTMENU;
 
 bool Init() {
 	if (SDL_INIT_EVERYTHING < 0) return false;

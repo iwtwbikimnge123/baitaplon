@@ -83,7 +83,10 @@ void MenuStart::RenderBaseMenu() {
 	start.RenderButton();
 }
 void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
+	Uint32 frameStart;
+	Uint32 frameTime;
 	while (SDL_PollEvent(&e)) {
+		frameStart = SDL_GetTicks();
 		if (e.type == SDL_QUIT) {
 			quit = true;
 			return;
@@ -210,6 +213,10 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				start.RenderButton();
 				SDL_RenderPresent(gRenderer);
 			}
+		}
+		frameTime = SDL_GetTicks() - frameStart;
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
 		}
 	}
 }

@@ -20,7 +20,11 @@ int main(int argc, char* argv[])
 	MenuStart menuStart;
 
 	while (!quit) {
-		menuStart.HandleEvent(e, quit);
+		switch (menuType) {
+		case STARTMENU:
+			menuStart.HandleEvent(e, quit);
+			break;
+		}
 	}
 
 	Close();

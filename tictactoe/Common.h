@@ -20,6 +20,8 @@ const SDL_Color black = { 0, 0, 0, 0 };
 
 const int SCREEN_WIDTH = 495;
 const int SCREEN_HEIGHT = 640;
+const int FPS = 70;
+const int frameDelay = 1000 / FPS;
 
 enum Player {
 	PLAYER_X,
@@ -54,7 +56,7 @@ enum ButtonType {
 	SWITCHLEVEL_HARD,
 };
 
-extern MenuType menutype;
+extern MenuType menuType;
 
 bool Init();
 

@@ -1,7 +1,7 @@
-#pragma once
+
 #include "playgame.h"
 
-void PlayGame(const int & n, SDL_Event& e, bool& quit) {
+void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 	if (n != 3) {
 		Game game;
 		game.SetN(n);

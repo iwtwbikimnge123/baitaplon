@@ -1,9 +1,14 @@
-﻿#include "game.h"
+#include "game.h"
 
 Game::Game() {
 	N = CELL_HEIGHT = CELL_WIDTH = 0;
 	player = PLAYER_X;
 	state = RUNNING_STATE;
+	winCells[0] = std::make_pair(-1, -1);
+	winCells[1] = std::make_pair(-1, -1);
+	winCells[2] = std::make_pair(-1, -1);
+	winCells[3] = std::make_pair(-1, -1);
+	winCells[4] = std::make_pair(-1, -1);
 }
 
 Game::~Game() {
@@ -15,7 +20,7 @@ Game::~Game() {
 
 
 void Game::InitBoard() {
-	board = new Player* [N];
+	board = new Player * [N];
 	for (int i = 0; i < N; i++) board[i] = new Player[N];
 	state = RUNNING_STATE;
 	for (int i = 0; i < N; i++) {
@@ -47,7 +52,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
 			int timer = 0;
 
-			while (1) {
+			while (!quit) {
 				std::string displaytime = "time : " + std::to_string(timer);
 				Text timetext;
 				if (!timetext.OpenFont(10, "imageandsound/gamecuben.ttf")) {
@@ -93,7 +98,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 					starttime = SDL_GetTicks() / 1000;
 				}
 
-				if (timer == 10) {
+				if (timer == 45) {
 					if (player == PLAYER_O) state = O_WON_STATE;
 					else state = X_WON_STATE;
 					break;
@@ -101,9 +106,13 @@ void Game::logic(SDL_Event& e, bool& quit) {
 				if (state != RUNNING_STATE) break;
 			}
 		}
-		else if (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE) {
-			Text a, b;
+
+		Text a, b;
+		if (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE) {
+			x = y = -1;
 			RenderEndStage(a, b);
+		}
+		while (!quit && ( state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE )) {
 			CheckClickWinMenu(e, quit, a, b);
 		}
 	}
@@ -117,13 +126,19 @@ bool Game::CheckWinRow(const int& x, const int& y) {
 			board[y][i] == board[y][i + 1] &&
 			board[y][i + 1] == board[y][i + 2] &&
 			board[y][i + 2] == board[y][i + 3] &&
-			board[y][i + 3] == board[y][i + 4])
+			board[y][i + 3] == board[y][i + 4]) {
+			winCells[0] = std::make_pair(y, i);
+			winCells[1] = std::make_pair(y, i + 1);
+			winCells[2] = std::make_pair(y, i + 2);
+			winCells[3] = std::make_pair(y, i + 3);
+			winCells[4] = std::make_pair(y, i + 4);
 			return true;
+		}
 	}
 	return false;
 }
 
-bool Game::CheckWinCol(const int& x, const int& y){
+bool Game::CheckWinCol(const int& x, const int& y) {
 	int mincol = std::max(0, y - 4);
 	int maxcol = std::min(N - 1, y + 4);
 	for (int i = mincol; i <= maxcol - 4; i++) {
@@ -131,8 +146,14 @@ bool Game::CheckWinCol(const int& x, const int& y){
 			board[i][x] == board[i + 1][x] &&
 			board[i + 1][x] == board[i + 2][x] &&
 			board[i + 2][x] == board[i + 3][x] &&
-			board[i + 3][x] == board[i + 4][x])
+			board[i + 3][x] == board[i + 4][x]) {
+			winCells[0] = std::make_pair(i, x);
+			winCells[1] = std::make_pair(i + 1, x);
+			winCells[2] = std::make_pair(i + 2, x);
+			winCells[3] = std::make_pair(i + 3, x);
+			winCells[4] = std::make_pair(i + 4, x);
 			return true;
+		}
 	}
 	return false;
 }
@@ -152,8 +173,14 @@ bool Game::CheckWinDiag2(const int& x, const int& y) {
 			board[y + i][x - i] == board[y + i + 1][x - i - 1] &&
 			board[y + i + 1][x - i - 1] == board[y + i + 2][x - i - 2] &&
 			board[y + i + 2][x - i - 2] == board[y + i + 3][x - i - 3] &&
-			board[y + i + 3][x - i - 3] == board[y + i + 4][x - i - 4])
+			board[y + i + 3][x - i - 3] == board[y + i + 4][x - i - 4]) {
+			winCells[0] = std::make_pair(y + i, x - i);
+			winCells[1] = std::make_pair(y + i + 1, x - i - 1);
+			winCells[2] = std::make_pair(y + i + 2, x - i - 2);
+			winCells[3] = std::make_pair(y + i + 3, x - i - 3);
+			winCells[4] = std::make_pair(y + i + 4, x - i - 4);
 			return true;
+		}
 	}
 	return false;
 }
@@ -172,8 +199,14 @@ bool Game::CheckWinDiag1(const int& x, const int& y) {
 			board[y + i][x + i] == board[y + i + 1][x + i + 1] &&
 			board[y + i + 1][x + i + 1] == board[y + i + 2][x + i + 2] &&
 			board[y + i + 2][x + i + 2] == board[y + i + 3][x + i + 3] &&
-			board[y + i + 3][x + i + 3] == board[y + i + 4][x + i + 4])
+			board[y + i + 3][x + i + 3] == board[y + i + 4][x + i + 4]) {
+			winCells[0] = std::make_pair(y + i, x + i);
+			winCells[1] = std::make_pair(y + i + 1, x + i + 1);
+			winCells[2] = std::make_pair(y + i + 2, x + i + 2);
+			winCells[3] = std::make_pair(y + i + 3, x + i + 3);
+			winCells[4] = std::make_pair(y + i + 4, x + i + 4);
 			return true;
+		}
 	}
 	return false;
 }
@@ -188,11 +221,11 @@ bool Game::CheckTie() {
 }
 
 void Game::Click(const int& x, const int& y, int& timer) {
-		if (board[y][x] == EMPTY) {
-			timer = 0;
-			ChangeTurn();
-			board[y][x] = player;
-		}
+	if (board[y][x] == EMPTY) {
+		timer = 0;
+		ChangeTurn();
+		board[y][x] = player;
+	}
 }
 
 void Game::RenderRunningstate(const int& x, const int& y) {
@@ -228,7 +261,7 @@ void Game::DrawXCell(const int& x, const int& y) {
 		std::cout << SDL_GetError();
 		return;
 	}
-	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0, 0));
+	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 255, 255));
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, surface);
 	if (!texture) {
@@ -255,7 +288,7 @@ void Game::DrawOCell(const int& x, const int& y) {
 		std::cout << SDL_GetError();
 		return;
 	}
-	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 0, 0, 0));
+	SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, 255, 255, 255));
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, surface);
 	if (!texture) {
@@ -269,9 +302,83 @@ void Game::DrawOCell(const int& x, const int& y) {
 	SDL_DestroyTexture(texture);
 	texture = NULL;
 }
-	
+
 
 void Game::RenderEndStage(Text returnmenu2, Text continueplay) {
+	SDL_Delay(50);
+	RenderRunningstate(-1, -1);
+	if (state == O_WON_STATE) {
+		for (int i = 0; i < 5; i++) {
+			SDL_Rect rect;
+			rect.x = CELL_WIDTH * winCells[i].second;
+			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
+			rect.w = CELL_WIDTH;
+			rect.h = CELL_HEIGHT;
+
+			SDL_Surface* surface;
+
+			surface = IMG_Load("imageandsound/winO.png");
+
+			if (!surface) {
+				std::cout << SDL_GetError();
+				return;
+			}
+
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, surface);
+			if (!texture) {
+				std::cout << SDL_GetError();
+				return;
+			}
+			SDL_FreeSurface(surface);
+
+			SDL_RenderCopy(gRenderer, texture, NULL, &rect);
+
+			SDL_DestroyTexture(texture);
+			texture = NULL;
+		}
+	}
+	else if (state == X_WON_STATE) {
+		for (int i = 0; i < 5; i++) {
+			SDL_Rect rect;
+			rect.x = CELL_WIDTH * winCells[i].second;
+			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
+			rect.w = CELL_WIDTH;
+			rect.h = CELL_HEIGHT;
+
+			SDL_Surface* surface;
+
+			surface = IMG_Load("imageandsound/winX.png");
+
+			if (!surface) {
+				std::cout << SDL_GetError();
+				return;
+			}
+
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(gRenderer, surface);
+			if (!texture) {
+				std::cout << SDL_GetError();
+				return;
+			}
+			SDL_FreeSurface(surface);
+
+			SDL_RenderCopy(gRenderer, texture, NULL, &rect);
+
+			SDL_DestroyTexture(texture);
+			texture = NULL;
+		}
+	}
+
+	SDL_RenderPresent(gRenderer);
+
+	SDL_Delay(300);
+
+
+}
+
+void Game::CheckClickWinMenu(SDL_Event& e, bool& quit, Text returnmenu2, Text continueplay) {
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+	SDL_RenderClear(gRenderer);
+
 	if (state == O_WON_STATE) RenderImage("imageandsound/O.png");
 	else if (state == X_WON_STATE) RenderImage("imageandsound/X.png");
 	else RenderImage("imageandsound/anh1.png");
@@ -285,26 +392,28 @@ void Game::RenderEndStage(Text returnmenu2, Text continueplay) {
 		return;
 	}
 
-	returnmenu2.SetColor(white);
-	continueplay.SetColor(white);
+	returnmenu2.SetColor(green);
+	continueplay.SetColor(green);
 
 	returnmenu2.SetText("return");
 	continueplay.SetText("continue");
 
 	returnmenu2.RenderText(180, 100);
 	continueplay.RenderText(130, 450);
-}
+	SDL_RenderPresent(gRenderer);
 
-void Game::CheckClickWinMenu(SDL_Event& e, bool& quit, Text returnmenu2, Text continueplay) {
-		while (SDL_PollEvent(&e)) {
-			if (e.type == SDL_QUIT) quit = true;
-
-			else if (e.type == SDL_MOUSEBUTTONUP) {
-				if (CheckClick(*returnmenu2.GetRect(), e.button.x, e.button.y)) {
-					menutype = CHOOSEMAP;
-				}
-				else if (CheckClick(*continueplay.GetRect(), e.button.x, e.button.y)) InitBoard();
-			}
+	while (SDL_PollEvent(&e)) {
+		if (e.type == SDL_QUIT) {
+			quit = true;
+			return;
 		}
-		SDL_RenderPresent(gRenderer);
+
+		else if (e.type == SDL_MOUSEBUTTONDOWN) {
+			if (CheckClick(*returnmenu2.GetRect(), e.button.x, e.button.y)) {
+				menutype = CHOOSEMAP;
+				state = RUNNING_STATE;
+			}
+			else if (CheckClick(*continueplay.GetRect(), e.button.x, e.button.y)) InitBoard();
+		}
+	}
 }

@@ -21,28 +21,25 @@
     <ClCompile Include="Common.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menu1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="menu2.cpp">
+    <ClCompile Include="choosetictactoe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="playgame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gametictactoe.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="choosetictactoe.h">
-      <Filter>Header Files</Filter>
+    <ClCompile Include="menu1.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="choosetictactoe.cpp">
+    <ClCompile Include="menu2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="playgame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,22 +47,25 @@
     <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="text.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="menu2.h">
+    <ClInclude Include="choosetictactoe.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gametictactoe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menu1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menu2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="playgame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gametictatoe.h">
+    <ClInclude Include="text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

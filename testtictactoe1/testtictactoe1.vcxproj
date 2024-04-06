@@ -18,6 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="choosetictactoe.cpp" />
+    <ClCompile Include="Common.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="gametictactoe.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu1.cpp" />
+    <ClCompile Include="menu2.cpp" />
+    <ClCompile Include="playgame.cpp" />
+    <ClCompile Include="text.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="choosetictactoe.h" />
+    <ClInclude Include="Common.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="gametictactoe.h" />
+    <ClInclude Include="menu1.h" />
+    <ClInclude Include="menu2.h" />
+    <ClInclude Include="playgame.h" />
+    <ClInclude Include="text.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -132,27 +153,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="choosetictactoe.cpp" />
-    <ClCompile Include="choosetictactoe.h" />
-    <ClCompile Include="gametictactoe.cpp" />
-    <ClCompile Include="playgame.cpp" />
-    <ClCompile Include="Common.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="menu1.cpp" />
-    <ClCompile Include="menu2.cpp" />
-    <ClCompile Include="text.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gametictatoe.h" />
-    <ClInclude Include="playgame.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="menu1.h" />
-    <ClInclude Include="menu2.h" />
-    <ClInclude Include="text.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

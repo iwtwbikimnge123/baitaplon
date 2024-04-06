@@ -1,4 +1,4 @@
-#include "gametictatoe.h"
+#include "gametictactoe.h"
 
 bool GameTictactoe::CheckWinRow(const int& x, const int& y) {
 	for (int i = 0; i < N; i++) {
@@ -15,7 +15,7 @@ bool GameTictactoe::CheckWinCol(const int& x, const int& y) {
 }
 
 bool GameTictactoe::CheckWinDiag1(const int& x, const int& y) {
-	if(board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) return true;
+	if (board[0][0] != EMPTY && board[0][0] == board[1][1] && board[1][1] == board[2][2]) return true;
 	return false;
 }
 

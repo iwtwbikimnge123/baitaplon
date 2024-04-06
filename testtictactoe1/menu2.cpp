@@ -40,28 +40,6 @@ void CheckClickMenu2(SDL_Event& e, bool& quit, Text returnMenu1, Text goToTictac
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) quit = true;
 
-		/*else if (e.type == SDL_MOUSEMOTION) {
-			if (CheckClick(*returnMenu1.GetRect(), e.motion.x, e.motion.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, red, white, white, white);
-			else if (CheckClick(*goToTictactoe.GetRect(), e.motion.x, e.motion.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, red, white, white);
-			else if (CheckClick(*goTo5x5.GetRect(), e.motion.x, e.motion.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, white, red, white);
-			else if (CheckClick(*goTo15x15.GetRect(), e.motion.x, e.motion.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, white, white, red);
-		}
-		*/
-		/*else if (e.type == SDL_MOUSEBUTTONDOWN) {
-			if (CheckClick(*returnMenu1.GetRect(), e.button.x, e.button.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, red, white, white, white);
-			else if (CheckClick(*goToTictactoe.GetRect(), e.button.x, e.button.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, red, white, white);
-			else if (CheckClick(*goTo5x5.GetRect(), e.button.x, e.button.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, white, red, white);
-			else if (CheckClick(*goTo15x15.GetRect(), e.button.x, e.button.y))
-				RenderMenu2(returnMenu1, goToTictactoe, goTo5x5, goTo15x15, white, white, white, red);
-		}
-		*/
 		else if (e.type == SDL_MOUSEBUTTONUP) {
 			if (CheckClick(*returnMenu1.GetRect(), e.button.x, e.button.y)) {
 				menutype = STARTMENU;

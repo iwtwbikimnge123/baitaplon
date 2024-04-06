@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "Common.h"
 #include "text.h" 
 
@@ -9,18 +10,18 @@ public:
 
 	void DrawGrid();
 
-	void SetN(const int& n) { 
+	void SetN(const int& n) {
 		N = n;
 		CELL_WIDTH = CELL_HEIGHT = SCREEN_WIDTH / N;
 	}
 
 	void InitBoard();
-	
+
 	void ChangeTurn();
 
 	void logic(SDL_Event& e, bool& quit);
 
-	void Click(const int& x, const int & y, int& timer);
+	void Click(const int& x, const int& y, int& timer);
 
 
 	virtual bool CheckWinRow(const int& x, const int& y);
@@ -49,4 +50,5 @@ protected:
 	Player** board;
 	Player player;
 	GameState state;
+	std::pair <int, int> winCells[5];
 };
