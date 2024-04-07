@@ -10,6 +10,7 @@ private:
 	Button chooseSize3x3;
 	Button chooseSize15x15;
 	Button base;
+	Button speaker;
 	int choosePlayerStatus;
 	int chooseSizeStatus;
 public:

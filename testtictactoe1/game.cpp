@@ -1,7 +1,9 @@
-#include "game.h"
+﻿#include "game.h"
 
 Game::Game() {
 	N = CELL_HEIGHT = CELL_WIDTH = 0;
+	cntXwin = cntOwin = 0;
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
 	winCells[0] = std::make_pair(-1, -1);
@@ -110,7 +112,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 		Text a, b;
 		if (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE) {
 			x = y = -1;
-			RenderEndStage(a, b);
+			RenderEndStage();
 		}
 		while (!quit && ( state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE )) {
 			CheckClickWinMenu(e, quit, a, b);
@@ -184,6 +186,7 @@ bool Game::CheckWinDiag2(const int& x, const int& y) {
 	}
 	return false;
 }
+
 bool Game::CheckWinDiag1(const int& x, const int& y) {
 	int upd, downd;
 	if (x < 4 || y < 4) {
@@ -231,6 +234,35 @@ void Game::Click(const int& x, const int& y, int& timer) {
 void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 	SDL_RenderClear(gRenderer);
+
+	//to mau cho bang
+	SDL_SetRenderDrawColor(gRenderer, 144, 238, 144, 0);
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH;
+	rect.w = rect.h = SCREEN_WIDTH;
+	SDL_RenderFillRect(gRenderer, &rect);
+
+	// render điểm
+	Text xPoint;
+	Text oPoint;
+	if (!xPoint.OpenFont(20, "imageandsound/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	xPoint.SetText(std::to_string(cntXwin));
+	xPoint.SetColor(black);
+	xPoint.RenderText(132, 100);
+
+	if (!oPoint.OpenFont(20, "imageandsound/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	oPoint.SetText(std::to_string(cntOwin));
+	oPoint.SetColor(black);
+	oPoint.RenderText(345, 100);
+
+
 	DrawGrid();
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -238,14 +270,14 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 			else if (board[i][j] == PLAYER_O) DrawOCell(j, i);
 		}
 	}
-	SDL_Rect rect;
+	SDL_Rect rect1;
 	rect.x = CELL_WIDTH * x;
 	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * y;
 	rect.w = CELL_WIDTH;
 	rect.h = CELL_HEIGHT;
 
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
-	SDL_RenderDrawRect(gRenderer, &rect);
+	SDL_RenderDrawRect(gRenderer, &rect1);
 
 }
 
@@ -304,10 +336,12 @@ void Game::DrawOCell(const int& x, const int& y) {
 }
 
 
-void Game::RenderEndStage(Text returnmenu2, Text continueplay) {
+void Game::RenderEndStage() {
 	SDL_Delay(50);
 	RenderRunningstate(-1, -1);
 	if (state == O_WON_STATE) {
+		cntOwin++;
+
 		for (int i = 0; i < 5; i++) {
 			SDL_Rect rect;
 			rect.x = CELL_WIDTH * winCells[i].second;
@@ -338,6 +372,8 @@ void Game::RenderEndStage(Text returnmenu2, Text continueplay) {
 		}
 	}
 	else if (state == X_WON_STATE) {
+		cntXwin++;
+
 		for (int i = 0; i < 5; i++) {
 			SDL_Rect rect;
 			rect.x = CELL_WIDTH * winCells[i].second;

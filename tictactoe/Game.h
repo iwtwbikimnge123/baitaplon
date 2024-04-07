@@ -23,13 +23,13 @@ public:
 
 	void Click(const int& x, const int& y, int& timer);
 
-	bool CheckWinRow(const int& x, const int& y);
+	virtual bool CheckWinRow(const int& x, const int& y) = 0;
 
-	bool CheckWinCol(const int& x, const int& y);
+	virtual bool CheckWinCol(const int& x, const int& y) = 0;
 
-	bool CheckWinDiag2(const int& x, const int& y);
+	virtual bool CheckWinDiag2(const int& x, const int& y) = 0;
 
-	bool CheckWinDiag1(const int& x, const int& y);
+	virtual bool CheckWinDiag1(const int& x, const int& y) = 0;
 
 	bool CheckTie();
 
@@ -39,14 +39,19 @@ public:
 
 	void DrawOCell(const int& x, const int& y);
 
-	void RenderEndStage(Text returnmenu2, Text continueplay);
+	void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit, Text returnmenu2, Text continueplay);
 protected:
 	int N;
 	int CELL_WIDTH;
 	int CELL_HEIGHT;
+	int cntXwin;
+	int cntOwin;
+
 	Player** board;
 	Player player;
 	GameState state;
+
+	std::pair <int, int> winCells[5];
 };

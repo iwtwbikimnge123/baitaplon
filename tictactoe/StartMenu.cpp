@@ -13,6 +13,10 @@ MenuStart::MenuStart() {
 	focusStart.SetPath();
 	focusStart.SetRect(150, 450, 200, 110);
 
+	speaker.SetButtonType(SPEAKER);
+	speaker.SetPath();
+	speaker.SetRect(30, 550, 70, 70);//
+
 	base.SetButtonType(BASE);
 	base.SetPath();
 
@@ -55,6 +59,7 @@ MenuStart::MenuStart() {
 	start.RenderButton();
 	choosePlayer1.RenderButton();
 	chooseSize3x3.RenderButton();
+	speaker.RenderButton();
 	SDL_RenderPresent(gRenderer);
 
 }
@@ -80,6 +85,7 @@ void MenuStart::RenderBaseMenu() {
 	size.SetText("size>");
 	size.RenderText(43, 320);
 
+	speaker.RenderButton();
 	start.RenderButton();
 }
 void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {

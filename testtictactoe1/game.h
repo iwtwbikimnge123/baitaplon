@@ -40,13 +40,16 @@ public:
 
 	void DrawOCell(const int& x, const int& y);
 
-	void RenderEndStage(Text returnmenu2, Text continueplay);
+	void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit, Text returnmenu2, Text continueplay);
 protected:
 	int N;
 	int CELL_WIDTH;
 	int CELL_HEIGHT;
+	int cntXwin;
+	int cntOwin;
+
 	Player** board;
 	Player player;
 	GameState state;

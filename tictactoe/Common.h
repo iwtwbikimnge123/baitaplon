@@ -47,13 +47,20 @@ enum MenuType {
 enum ButtonType {
 	START,
 	FOCUSSTART,
+
 	BASE,
+
 	CHOOSEPLAYER_1,
 	CHOOSEPLAYER_2,
+
 	CHOOSESIZE_3x3,
 	CHOOSESIZE_15x15,
+
 	SWITCHLEVEL_MEDIUM,
 	SWITCHLEVEL_HARD,
+
+	HOME,
+	SPEAKER,
 };
 
 extern MenuType menuType;

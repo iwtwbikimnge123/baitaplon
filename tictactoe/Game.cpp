@@ -1,9 +1,17 @@
+
 #include "Game.h"
 
 Game::Game() {
 	N = CELL_HEIGHT = CELL_WIDTH = 0;
+	cntXwin = cntOwin = 0;
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
+	winCells[0] = std::make_pair(-1, -1);
+	winCells[1] = std::make_pair(-1, -1);
+	winCells[2] = std::make_pair(-1, -1);
+	winCells[3] = std::make_pair(-1, -1);
+	winCells[4] = std::make_pair(-1, -1);
 }
 
 Game::~Game() {
@@ -38,76 +46,6 @@ void Game::ChangeTurn() {
 	else player = PLAYER_O;
 }
 
-bool Game::CheckWinRow(const int& x, const int& y) {
-	int minrow = std::max(0, x - 4);
-	int maxrow = std::min(N - 1, x + 4);
-	for (int i = minrow; i <= maxrow - 4; i++) {
-		if (board[y][i] != EMPTY &&
-			board[y][i] == board[y][i + 1] &&
-			board[y][i + 1] == board[y][i + 2] &&
-			board[y][i + 2] == board[y][i + 3] &&
-			board[y][i + 3] == board[y][i + 4])
-			return true;
-	}
-	return false;
-}
-
-bool Game::CheckWinCol(const int& x, const int& y) {
-	int mincol = std::max(0, y - 4);
-	int maxcol = std::min(N - 1, y + 4);
-	for (int i = mincol; i <= maxcol - 4; i++) {
-		if (board[i][x] != EMPTY &&
-			board[i][x] == board[i + 1][x] &&
-			board[i + 1][x] == board[i + 2][x] &&
-			board[i + 2][x] == board[i + 3][x] &&
-			board[i + 3][x] == board[i + 4][x])
-			return true;
-	}
-	return false;
-}
-
-bool Game::CheckWinDiag2(const int& x, const int& y) {
-	int upd, downd;
-	if (x >= N - 4 || y < 4) {
-		upd = -std::min(y, N - x - 1);
-	}
-	else upd = -4;
-	if (x < 4 || y >= N - 4) {
-		downd = std::min(N - y - 1, x);
-	}
-	else downd = 4;
-	for (int i = upd; i <= downd - 4; i++) {
-		if (board[y + i][x - i] != EMPTY &&
-			board[y + i][x - i] == board[y + i + 1][x - i - 1] &&
-			board[y + i + 1][x - i - 1] == board[y + i + 2][x - i - 2] &&
-			board[y + i + 2][x - i - 2] == board[y + i + 3][x - i - 3] &&
-			board[y + i + 3][x - i - 3] == board[y + i + 4][x - i - 4])
-			return true;
-	}
-	return false;
-}
-
-bool Game::CheckWinDiag1(const int& x, const int& y) {
-	int upd, downd;
-	if (x < 4 || y < 4) {
-		upd = -std::min(y, x);
-	}
-	else upd = -4;
-	if (x >= N - 4 || y >= N - 4) {
-		downd = std::min(N - y, N - x) - 1;
-	}
-	else downd = 4;
-	for (int i = upd; i <= downd - 4; i++) {
-		if (board[y + i][x + i] != EMPTY &&
-			board[y + i][x + i] == board[y + i + 1][x + i + 1] &&
-			board[y + i + 1][x + i + 1] == board[y + i + 2][x + i + 2] &&
-			board[y + i + 2][x + i + 2] == board[y + i + 3][x + i + 3] &&
-			board[y + i + 3][x + i + 3] == board[y + i + 4][x + i + 4])
-			return true;
-	}
-	return false;
-}
-
 bool Game::CheckTie() {
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -136,3 +74,173 @@ void Game::DrawOCell(const int& x, const int& y) {
 
 	RenderImage("img/O.png", rect);
 }
+
+void Game::Click(const int& x, const int& y, int& timer) {
+	if (board[y][x] == EMPTY) {
+		timer = 0;
+		ChangeTurn();
+		board[y][x] = player;
+	}
+}
+
+void Game::logic(SDL_Event& e, bool& quit) {
+	int x = -1;
+	int y = -1;
+	while (menuType != STARTMENU && !quit) {
+		if (state == RUNNING_STATE) {
+			Uint32 starttime = SDL_GetTicks() / 1000;
+			int timer = 0;
+
+			while (!quit) {
+				std::string displaytime = "time : " + std::to_string(timer);
+				Text timetext;
+				if (!timetext.OpenFont(10, "imageandsound/gamecuben.ttf")) {
+					std::cout << SDL_GetError();
+					return;
+				}
+				timetext.SetColor(black);
+				timetext.SetText(displaytime);
+
+				RenderRunningstate(x, y);
+
+				timetext.RenderText(10, 10);
+
+				SDL_RenderPresent(gRenderer);
+				while (SDL_PollEvent(&e)) {
+
+					SDL_RenderClear(gRenderer);
+					SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+					if (e.type == SDL_QUIT) {
+						quit = true;
+						return;
+					}
+					else if (e.type == SDL_MOUSEBUTTONDOWN) {
+						x = e.button.x / CELL_WIDTH;
+						y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+						Click(x, y, timer);
+						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
+							if (player == PLAYER_O) state = O_WON_STATE;
+							else state = X_WON_STATE;
+							break;
+						}
+						else if (CheckTie()) {
+							state = TIE_STATE;
+							break;
+						}
+						RenderRunningstate(x, y);
+						SDL_RenderPresent(gRenderer);
+					}
+				}
+				Uint32 finaltime = SDL_GetTicks() / 1000;
+				if (finaltime - starttime >= 1) {
+					timer++;
+					starttime = SDL_GetTicks() / 1000;
+				}
+
+				if (timer == 45) {
+					if (player == PLAYER_O) state = O_WON_STATE;
+					else state = X_WON_STATE;
+					break;
+				}
+				if (state != RUNNING_STATE) break;
+			}
+		}
+
+		Text a, b;
+		if (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE) {
+			x = y = -1;
+			RenderEndStage();
+		}
+		while (!quit && (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE)) {
+			CheckClickWinMenu(e, quit, a, b);
+		}
+	}
+}
+
+
+void Game::RenderRunningstate(const int& x, const int& y) {
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+	SDL_RenderClear(gRenderer);
+
+	//to mau cho bang
+	SDL_SetRenderDrawColor(gRenderer, 144, 238, 144, 0);
+	SDL_Rect rect;
+	rect.x = 0;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH;
+	rect.w = rect.h = SCREEN_WIDTH;
+	SDL_RenderFillRect(gRenderer, &rect);
+
+	// render diem
+	Text xPoint;
+	Text oPoint;
+	if (!xPoint.OpenFont(20, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	xPoint.SetText(std::to_string(cntXwin));
+	xPoint.SetColor(black);
+	xPoint.RenderText(132, 100);
+
+	if (!oPoint.OpenFont(20, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	oPoint.SetText(std::to_string(cntOwin));
+	oPoint.SetColor(black);
+	oPoint.RenderText(345, 100);
+
+
+	DrawGrid();
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (board[i][j] == PLAYER_X) DrawXCell(j, i);
+			else if (board[i][j] == PLAYER_O) DrawOCell(j, i);
+		}
+	}
+	SDL_Rect rect1;
+	rect.x = CELL_WIDTH * x;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * y;
+	rect.w = CELL_WIDTH;
+	rect.h = CELL_HEIGHT;
+
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+	SDL_RenderDrawRect(gRenderer, &rect1);
+
+}
+
+void Game::RenderEndStage() {
+	SDL_Delay(50);
+	RenderRunningstate(-1, -1);
+	if (state == O_WON_STATE) {
+		cntOwin++;
+
+		for (int i = 0; i < 5; i++) {
+			SDL_Rect rect;
+			rect.x = CELL_WIDTH * winCells[i].second;
+			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
+			rect.w = CELL_WIDTH;
+			rect.h = CELL_HEIGHT;
+
+			RenderImage("img/winO.png", rect);
+		}
+	}
+	else if (state == X_WON_STATE) {
+		cntXwin++;
+
+		for (int i = 0; i < 5; i++) {
+			SDL_Rect rect;
+			rect.x = CELL_WIDTH * winCells[i].second;
+			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
+			rect.w = CELL_WIDTH;
+			rect.h = CELL_HEIGHT;
+
+			RenderImage("img/winX.png", rect);
+		}
+	}
+
+	SDL_RenderPresent(gRenderer);
+
+	SDL_Delay(300);
+
+}
+
