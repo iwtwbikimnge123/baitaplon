@@ -20,7 +20,7 @@ const SDL_Color black = { 0, 0, 0, 0 };
 
 const int SCREEN_WIDTH = 495;
 const int SCREEN_HEIGHT = 640;
-const int FPS = 70;
+const int FPS = 60;
 const int frameDelay = 1000 / FPS;
 
 enum Player {
@@ -38,10 +38,10 @@ enum GameState {
 
 enum MenuType {
 	STARTMENU,
-	CHOOSETICTACTOE,
-	PLAYTICTACTOE,
-	PLAY5X5,
-	PLAY15X15,
+	PLAY3x3_2PLAYER,
+	PLAY15X15_2PLAYER,
+	PLAY3X3_WITHBOT,
+	PLAY15X15_WITHBOT,
 };
 
 enum ButtonType {
@@ -61,6 +61,11 @@ enum ButtonType {
 
 	HOME,
 	SPEAKER,
+
+	CONTINUE,
+	RETURN,
+	FOCUS_CONTINUE,
+	FOCUS_RETURN,
 };
 
 extern MenuType menuType;

@@ -55,6 +55,9 @@ MenuStart::MenuStart() {
 
 	SDL_Rect chooseSizeBaseRect = { 100, 300, 300, 60 };
 	RenderImage("img/nut7.png", chooseSizeBaseRect);
+
+	SDL_Rect logoRect = { 175, 80, 150, 195 };
+	RenderImage("img/CARO.png", logoRect);
 	
 	start.RenderButton();
 	choosePlayer1.RenderButton();
@@ -68,6 +71,9 @@ MenuStart::~MenuStart() {
 }
 
 void MenuStart::RenderBaseMenu() {
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+	SDL_RenderClear(gRenderer);
+
 	SDL_Rect choosePlayerBaseRect = { 100, 370, 300, 60 };
 	RenderImage("img/nut2.png", choosePlayerBaseRect);
 
@@ -85,10 +91,15 @@ void MenuStart::RenderBaseMenu() {
 	size.SetText("size>");
 	size.RenderText(43, 320);
 
+	SDL_Rect logoRect = { 175, 80, 150, 195 };
+	RenderImage("img/CARO.png", logoRect);
+
 	speaker.RenderButton();
 	start.RenderButton();
 }
+
 void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
+
 	Uint32 frameStart;
 	Uint32 frameTime;
 	while (SDL_PollEvent(&e)) {
@@ -209,6 +220,11 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				SDL_RenderPresent(gRenderer);
 				chooseSizeStatus = 2;
 			}
+			else if (CheckClick(start.GetRect(), e.button.x, e.button.y)) {
+				if (chooseSizeStatus == 1 && choosePlayerStatus == 2) menuType = PLAY3x3_2PLAYER;
+				else if (chooseSizeStatus == 2 && choosePlayerStatus == 2) menuType = PLAY15X15_2PLAYER;
+				return;
+			}
 		}
 		else if (e.type = SDL_MOUSEMOTION) {
 			if (CheckClick(start.GetRect(), e.motion.x, e.motion.y)) {
@@ -227,3 +243,11 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 	}
 }
 
+void MenuStart::RestartMenu() {
+	RenderBaseMenu();
+	choosePlayer1.RenderButton();
+	chooseSize3x3.RenderButton();
+	choosePlayerStatus = 1;
+	chooseSizeStatus = 1;
+	SDL_RenderPresent(gRenderer);
+}

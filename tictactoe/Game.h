@@ -2,6 +2,7 @@
 
 #include "Common.h"
 #include "text.h" 
+#include "SwitchButton.h"
 
 class Game {
 public:
@@ -19,17 +20,19 @@ public:
 
 	void ChangeTurn();
 
+	void HandleBeforeMenu(SDL_Event& e, bool& quit);
+
 	void logic(SDL_Event& e, bool& quit);
 
 	void Click(const int& x, const int& y, int& timer);
 
-	virtual bool CheckWinRow(const int& x, const int& y) = 0;
+	virtual bool CheckWinRow(const int& x, const int& y);
 
-	virtual bool CheckWinCol(const int& x, const int& y) = 0;
+	virtual bool CheckWinCol(const int& x, const int& y);
 
-	virtual bool CheckWinDiag2(const int& x, const int& y) = 0;
+	virtual bool CheckWinDiag2(const int& x, const int& y);
 
-	virtual bool CheckWinDiag1(const int& x, const int& y) = 0;
+	virtual bool CheckWinDiag1(const int& x, const int& y);
 
 	bool CheckTie();
 
@@ -41,13 +44,18 @@ public:
 
 	void RenderEndStage();
 
-	void CheckClickWinMenu(SDL_Event& e, bool& quit, Text returnmenu2, Text continueplay);
+	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 protected:
 	int N;
 	int CELL_WIDTH;
 	int CELL_HEIGHT;
 	int cntXwin;
 	int cntOwin;
+
+	Button continue_;
+	Button return_;
+	Button focusContinue;
+	Button focusReturn;
 
 	Player** board;
 	Player player;

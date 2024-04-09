@@ -138,6 +138,7 @@
     <ClCompile Include="Game15x15.cpp" />
     <ClCompile Include="Game3x3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlayGame.cpp" />
     <ClCompile Include="StartMenu.cpp" />
     <ClCompile Include="SwitchButton.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game15x15.h" />
     <ClInclude Include="Game3x3.h" />
+    <ClInclude Include="PlayGame.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="SwitchButton.h" />
     <ClInclude Include="Text.h" />

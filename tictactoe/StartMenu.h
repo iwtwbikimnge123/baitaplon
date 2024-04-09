@@ -18,4 +18,5 @@ public:
 	~MenuStart();
 	void RenderBaseMenu();
 	void HandleEvent(SDL_Event& e, bool& quit);
+	void RestartMenu();
 };

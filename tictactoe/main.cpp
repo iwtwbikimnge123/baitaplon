@@ -1,4 +1,5 @@
 ﻿#include "StartMenu.h"
+#include "PlayGame.h"
 
 int main(int argc, char* argv[])
 {
@@ -6,13 +7,6 @@ int main(int argc, char* argv[])
 		std::cout << SDL_GetError() << std::endl;
 		return -1;
 	}
-
-	SDL_Rect rect = { 150, 450, 200, 110 };
-	SDL_Rect rectbasep = { 100, 370, 300, 60 };
-	SDL_Rect rectbases = { 100, 300, 300, 60 };
-
-	SDL_Rect rect2 = { 105, 375, 145, 50 };
-	SDL_Rect rect3 = { 250, 375, 145, 50 };
 
 	SDL_Event e;
 	bool quit = false;
@@ -24,7 +18,16 @@ int main(int argc, char* argv[])
 		case STARTMENU:
 			menuStart.HandleEvent(e, quit);
 			break;
+		case PLAY15X15_2PLAYER:
+			PlayGame(15, e, quit);
+			menuStart.RestartMenu();
+			break;
+		case PLAY3x3_2PLAYER:
+			PlayGame(3, e, quit);
+			menuStart.RestartMenu();
+			break;
 		}
+		
 	}
 
 	Close();
