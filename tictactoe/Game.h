@@ -36,7 +36,7 @@ public:
 
 	bool CheckTie();
 
-	void RenderRunningstate(const int& x, const int& y);
+    void RenderRunningstate(const int& x, const int& y);
 
 	void DrawXCell(const int& x, const int& y);
 

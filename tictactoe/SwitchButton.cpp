@@ -46,6 +46,9 @@ void Button::SetPath() {
 	case FOCUS_RETURN:
 		path = "img/return2.png";
 		break;
+	case FOCUS_SPEAKER:
+		path = "img/speaker1.png";
+		break;
 	case SWITCHLEVEL_MEDIUM:
 		//them
 		break;

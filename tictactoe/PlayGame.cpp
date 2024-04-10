@@ -8,18 +8,7 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
 		game.RenderRunningstate(-1, -1);
-
-		Text click;
-		if (!click.OpenFont(20, "img/gamecuben.ttf")) {
-			std::cout << SDL_GetError();
-			return;
-		}
-		click.SetColor(black);
-		click.SetText("click to play");
-		click.RenderText(70, 400);
-
-		SDL_RenderPresent(gRenderer);
-		game.HandleBeforeMenu(e, quit);
+		game.logic(e, quit);
 	}
 	else {
 		Game3x3 game;
@@ -28,18 +17,7 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
 		game.RenderRunningstate(-1, -1);
-
-		Text click;
-		if (!click.OpenFont(20, "img/gamecuben.ttf")) {
-			std::cout << SDL_GetError();
-			return;
-		}
-		click.SetColor(black);
-		click.SetText("click to play");
-		click.RenderText(70, 400);
-
-		SDL_RenderPresent(gRenderer);
-		game.HandleBeforeMenu(e, quit);
+		game.logic(e, quit);
 	}
 }
 

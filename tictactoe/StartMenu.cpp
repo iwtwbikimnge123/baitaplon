@@ -15,7 +15,11 @@ MenuStart::MenuStart() {
 
 	speaker.SetButtonType(SPEAKER);
 	speaker.SetPath();
-	speaker.SetRect(30, 550, 70, 70);//
+	speaker.SetRect(30, 550, 70, 70);
+
+	focusSpeaker.SetButtonType(FOCUS_SPEAKER);
+	focusSpeaker.SetPath();
+	focusSpeaker.SetRect(30, 550, 70, 70);
 
 	base.SetButtonType(BASE);
 	base.SetPath();
@@ -231,7 +235,12 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				focusStart.RenderButton();
 				SDL_RenderPresent(gRenderer);
 			}
+			else if (CheckClick(speaker.GetRect(), e.motion.x, e.motion.y)) {
+				focusSpeaker.RenderButton();
+				SDL_RenderPresent(gRenderer);
+			}
 			else {
+				speaker.RenderButton();
 				start.RenderButton();
 				SDL_RenderPresent(gRenderer);
 			}
