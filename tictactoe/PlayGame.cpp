@@ -21,3 +21,14 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 	}
 }
 
+void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
+	if (n == 3) {
+		Game3x3bot game;
+		game.SetN(3);
+		game.InitBoard();
+		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+		SDL_RenderClear(gRenderer);
+		game.RenderRunningstate(-1, -1);
+		game.logic(e, quit);
+	}
+}

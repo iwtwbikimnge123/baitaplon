@@ -36,10 +36,10 @@
     <ClCompile Include="Game3x3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game15x15.cpp">
+    <ClCompile Include="PlayGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayGame.cpp">
+    <ClCompile Include="Game3x3bot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,10 @@
     <ClInclude Include="Game3x3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game15x15.h">
+    <ClInclude Include="PlayGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayGame.h">
+    <ClInclude Include="Game3x3bot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

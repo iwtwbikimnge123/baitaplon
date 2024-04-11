@@ -135,8 +135,8 @@
   <ItemGroup>
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Game15x15.cpp" />
     <ClCompile Include="Game3x3.cpp" />
+    <ClCompile Include="Game3x3bot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayGame.cpp" />
     <ClCompile Include="StartMenu.cpp" />
@@ -146,8 +146,8 @@
   <ItemGroup>
     <ClInclude Include="Common.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Game15x15.h" />
     <ClInclude Include="Game3x3.h" />
+    <ClInclude Include="Game3x3bot.h" />
     <ClInclude Include="PlayGame.h" />
     <ClInclude Include="StartMenu.h" />
     <ClInclude Include="SwitchButton.h" />

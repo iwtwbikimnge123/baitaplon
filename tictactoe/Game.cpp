@@ -71,7 +71,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
 			int timer = 45;
 
-			while (!quit) {
+			while (!quit && state == RUNNING_STATE) {
 				std::string displaytime = "00:" + std::to_string(timer);
 				Text timetext;
 				if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
@@ -91,13 +91,13 @@ void Game::logic(SDL_Event& e, bool& quit) {
 
 				RenderRunningstate(x, y);
 
-				if (player == PLAYER_O) { 
-					timetext.RenderText(80, 110); 
-					otherTime.RenderText(360, 110);
+				if (player == PLAYER_X) { 
+					timetext.RenderText(80, 120); 
+					otherTime.RenderText(360, 120);
 				}
 				else {
-					timetext.RenderText(360, 110);
-					otherTime.RenderText(80, 110);
+					timetext.RenderText(360, 120);
+					otherTime.RenderText(80, 120);
 				}
 
 				SDL_RenderPresent(gRenderer);
@@ -114,8 +114,8 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
 						Click(x, y, timer);
 						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
-							if (player == PLAYER_O) state = O_WON_STATE;
-							else state = X_WON_STATE;
+							if (player == PLAYER_O) state = X_WON_STATE;
+							else state = O_WON_STATE;
 							break;
 						}
 						else if (CheckTie()) {
@@ -133,11 +133,10 @@ void Game::logic(SDL_Event& e, bool& quit) {
 				}
 
 				if (timer == 0) {
-					if (player == PLAYER_O) state = O_WON_STATE;
-					else state = X_WON_STATE;
+					if (player == PLAYER_O) state = X_WON_STATE;
+					else state = O_WON_STATE;
 					break;
 				}
-				if (state != RUNNING_STATE) break;
 			}
 		}
 
@@ -253,8 +252,8 @@ bool Game::CheckTie() {
 void Game::Click(const int& x, const int& y, int& timer) {
 	if (board[y][x] == EMPTY) {
 		timer = 45;
-		ChangeTurn();
 		board[y][x] = player;
+		ChangeTurn();
 	}
 }
 
@@ -272,10 +271,10 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_RenderFillRect(gRenderer, &rect);
 
 	rect.x = 50;
-	rect.y = 57;
+	rect.y = 67;
 	rect.w = 120;
 	rect.h = 50;
-	if (player == PLAYER_O) {
+	if (player == PLAYER_X) {
 		RenderImage("img/logoX2.png", rect);
 		rect.x = 325;
 		RenderImage("img/logoO.png", rect);
@@ -294,7 +293,7 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	}
 	xPoint.SetText(std::to_string(cntXwin));
 	xPoint.SetColor(white);
-	xPoint.RenderText(132, 70);
+	xPoint.RenderText(132, 80);
 
 	if (!oPoint.OpenFont(21, "img/gamecuben.ttf")) {
 		std::cout << SDL_GetError();
@@ -302,7 +301,7 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	}
 	oPoint.SetText(std::to_string(cntOwin));
 	oPoint.SetColor(white);
-	oPoint.RenderText(345, 70);
+	oPoint.RenderText(345, 80);
 
 
 	DrawGrid();
@@ -344,7 +343,6 @@ void Game::DrawOCell(const int& x, const int& y) {
 
 
 void Game::RenderEndStage() {
-	SDL_Delay(50);
 	RenderRunningstate(-1, -1);
 	if (state == O_WON_STATE) {
 		cntOwin++;
@@ -377,7 +375,7 @@ void Game::RenderEndStage() {
 
 	SDL_Delay(300);
 
-	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
 	SDL_RenderClear(gRenderer);
 
 	SDL_Rect rect = { 25, 150, 450, 170 };

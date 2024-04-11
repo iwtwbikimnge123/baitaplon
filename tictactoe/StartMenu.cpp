@@ -227,6 +227,7 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 			else if (CheckClick(start.GetRect(), e.button.x, e.button.y)) {
 				if (chooseSizeStatus == 1 && choosePlayerStatus == 2) menuType = PLAY3x3_2PLAYER;
 				else if (chooseSizeStatus == 2 && choosePlayerStatus == 2) menuType = PLAY15X15_2PLAYER;
+				else if (chooseSizeStatus == 1 && choosePlayerStatus == 1) menuType = PLAY3X3_WITHBOT;
 				return;
 			}
 		}

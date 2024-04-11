@@ -22,9 +22,9 @@ public:
 
 	void HandleBeforeMenu(SDL_Event& e, bool& quit);
 
-	void logic(SDL_Event& e, bool& quit);
+	virtual void logic(SDL_Event& e, bool& quit);
 
-	void Click(const int& x, const int& y, int& timer);
+	virtual void Click(const int& x, const int& y, int& timer);
 
 	virtual bool CheckWinRow(const int& x, const int& y);
 
@@ -42,7 +42,7 @@ public:
 
 	void DrawOCell(const int& x, const int& y);
 
-	void RenderEndStage();
+	virtual void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 protected:

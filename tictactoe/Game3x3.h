@@ -10,5 +10,7 @@ public:
 	bool CheckWinDiag1(const int& x, const int& y);
 
 	bool CheckWinDiag2(const int& x, const int& y);
+
+	void RenderEndStage();
 };
 
