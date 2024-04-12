@@ -27,7 +27,6 @@ Game::Game() {
 	winCells[2] = std::make_pair(-1, -1);
 	winCells[3] = std::make_pair(-1, -1);
 	winCells[4] = std::make_pair(-1, -1);
-	boardColor = green;
 }
 
 Game::~Game() {
@@ -36,6 +35,7 @@ Game::~Game() {
 	}
 	delete[] board;
 }
+
 
 void Game::InitBoard() {
 	board = new Player * [N];
@@ -83,16 +83,16 @@ void Game::logic(SDL_Event& e, bool& quit) {
 
 				Text otherTime;
 				if (!otherTime.OpenFont(15, "img/gamecuben.ttf")) {
-						std::cout << SDL_GetError();
-						return;
-					}
+					std::cout << SDL_GetError();
+					return;
+				}
 				otherTime.SetColor(grey);
 				otherTime.SetText("00:45");
 
 				RenderRunningstate(x, y);
 
-				if (player == PLAYER_X) { 
-					timetext.RenderText(80, 120); 
+				if (player == PLAYER_X) {
+					timetext.RenderText(80, 120);
 					otherTime.RenderText(360, 120);
 				}
 				else {
@@ -110,12 +110,9 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						return;
 					}
 					else if (e.type == SDL_MOUSEBUTTONDOWN) {
-						if (e.button.y >= SCREEN_HEIGHT - SCREEN_WIDTH) {
-							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-							x = e.button.x / CELL_WIDTH;
-							Click(x, y, timer);
-						}
-						
+						x = e.button.x / CELL_WIDTH;
+						y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+						Click(x, y, timer);
 						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
 							if (player == PLAYER_O) state = X_WON_STATE;
 							else state = O_WON_STATE;
@@ -129,7 +126,6 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						SDL_RenderPresent(gRenderer);
 					}
 				}
-
 				Uint32 finaltime = SDL_GetTicks() / 1000;
 				if (finaltime - starttime >= 1) {
 					timer--;
@@ -254,7 +250,7 @@ bool Game::CheckTie() {
 }
 
 void Game::Click(const int& x, const int& y, int& timer) {
-	if (CheckInside(x, y) && board[y][x] == EMPTY) {
+	if (board[y][x] == EMPTY) {
 		timer = 45;
 		board[y][x] = player;
 		ChangeTurn();
@@ -264,7 +260,7 @@ void Game::Click(const int& x, const int& y, int& timer) {
 void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 	SDL_RenderClear(gRenderer);
-	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, 0);
+	SDL_SetRenderDrawColor(gRenderer, 144, 238, 144, 0);
 
 	SDL_Rect rect;
 
@@ -288,7 +284,7 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 		rect.x = 325;
 		RenderImage("img/logoO2.png", rect);
 	}
-	
+
 	Text xPoint;
 	Text oPoint;
 	if (!xPoint.OpenFont(21, "img/gamecuben.ttf")) {
@@ -397,7 +393,7 @@ void Game::RenderEndStage() {
 }
 
 void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
-		
+
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
 			quit = true;
@@ -428,30 +424,3 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 }
 
 
-void Game::HandleBeforeMenu(SDL_Event& e, bool& quit) {
-
-	InitBoard();
-	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
-	SDL_RenderClear(gRenderer);
-	RenderRunningstate(-1, -1);
-
-	Text click;
-	if (!click.OpenFont(20, "img/gamecuben.ttf")) {
-		std::cout << SDL_GetError();
-		return;
-	}
-	click.SetColor(black);
-	click.SetText("click to play");
-	click.RenderText(160, 400);
-
-	SDL_RenderPresent(gRenderer);
-
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
-			quit = true;
-			return;
-		}
-		else if (e.type == SDL_MOUSEBUTTONDOWN) logic(e, quit);
-		RenderRunningstate(-1, -1);
-	}
-}

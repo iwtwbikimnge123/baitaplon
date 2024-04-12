@@ -62,7 +62,7 @@ MenuStart::MenuStart() {
 
 	SDL_Rect logoRect = { 175, 80, 150, 195 };
 	RenderImage("img/CARO.png", logoRect);
-	
+
 	start.RenderButton();
 	choosePlayer1.RenderButton();
 	chooseSize3x3.RenderButton();
@@ -209,7 +209,7 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
 				while (x <= chooseSize15x15.GetRect().x) {
 					base.SetRect(x, chooseSize3x3.GetRect().y, chooseSize3x3.GetRect().w, chooseSize3x3.GetRect().h);
-					
+
 					RenderBaseMenu();
 					base.RenderButton();
 

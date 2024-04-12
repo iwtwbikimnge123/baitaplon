@@ -14,7 +14,7 @@ extern Mix_Chunk* gChunk;
 
 const SDL_Color white = { 255, 255, 255, 255 };
 const SDL_Color red = { 255, 0, 0, 0 };
-const SDL_Color green = { 144, 238, 144, 0 };
+const SDL_Color green = { 0, 255, 0, 0 };
 const SDL_Color black = { 0, 0, 0, 0 };
 const SDL_Color grey = { 128, 128, 128, 0 };
 

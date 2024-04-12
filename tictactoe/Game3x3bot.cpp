@@ -13,7 +13,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, i
 				if (board[i][j] == EMPTY) {
 					board[i][j] = PLAYER_O;
 					int score = minimax(depth - 1, false, alpha, beta, j, i);
-				    board[i][j] = EMPTY;
+					board[i][j] = EMPTY;
 					alpha = std::max(alpha, score);
 					if (alpha >= beta) return alpha;
 				}
@@ -72,12 +72,10 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 							return;
 						}
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
-							if (e.button.y >= SCREEN_HEIGHT - SCREEN_WIDTH) {
-								y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-								x = e.button.x / CELL_WIDTH;
-								Click(x, y, timer);
-							}
-							
+							x = e.button.x / CELL_WIDTH;
+							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+							Click(x, y, timer);
+
 							RenderRunningstate(x, y);
 							SDL_RenderPresent(gRenderer);
 						}
