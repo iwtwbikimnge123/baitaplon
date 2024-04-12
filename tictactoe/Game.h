@@ -55,6 +55,7 @@ protected:
 	Button focusContinue;
 	Button focusReturn;
 	Button home;
+	Button speaker;
 
 	Player** board;
 	Player player;

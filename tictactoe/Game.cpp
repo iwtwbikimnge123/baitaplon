@@ -22,7 +22,11 @@ Game::Game() {
 
 	home.SetButtonType(HOME);
 	home.SetPath();
-	home.SetRect(10, 10, 50, 50);
+	home.SetRect(10, 10, 45, 45);
+
+	speaker.SetButtonType(SPEAKER);
+	speaker.SetPath();
+	speaker.SetRect(75, 10, 45, 45);
 
 	player = PLAYER_X;
 	state = RUNNING_STATE;
@@ -327,6 +331,7 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_RenderDrawRect(gRenderer, &rect);
 
 	home.RenderButton();
+	speaker.RenderButton();
 }
 
 void Game::DrawXCell(const int& x, const int& y) {
