@@ -27,6 +27,8 @@ Game::Game() {
 	winCells[2] = std::make_pair(-1, -1);
 	winCells[3] = std::make_pair(-1, -1);
 	winCells[4] = std::make_pair(-1, -1);
+
+	boardColor = green;
 }
 
 Game::~Game() {
@@ -262,7 +264,7 @@ void Game::Click(const int& x, const int& y, int& timer) {
 void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 	SDL_RenderClear(gRenderer);
-	SDL_SetRenderDrawColor(gRenderer, 144, 238, 144, 0);
+	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, boardColor.a);
 
 	SDL_Rect rect;
 
