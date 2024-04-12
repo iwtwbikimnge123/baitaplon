@@ -36,6 +36,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, i
 		return beta;
 	}
 }
+
 void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 	int x = -1;
 	int y = -1;

@@ -54,6 +54,7 @@ protected:
 	Button return_;
 	Button focusContinue;
 	Button focusReturn;
+	Button home;
 
 	Player** board;
 	Player player;

@@ -20,6 +20,10 @@ Game::Game() {
 	focusReturn.SetPath();
 	focusReturn.SetRect(132, 450, 230, 90);
 
+	home.SetButtonType(HOME);
+	home.SetPath();
+	home.SetRect(10, 10, 50, 50);
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
 	winCells[0] = std::make_pair(-1, -1);
@@ -307,7 +311,6 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	oPoint.SetColor(white);
 	oPoint.RenderText(345, 80);
 
-
 	DrawGrid();
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -323,6 +326,7 @@ void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 	SDL_RenderDrawRect(gRenderer, &rect);
 
+	home.RenderButton();
 }
 
 void Game::DrawXCell(const int& x, const int& y) {

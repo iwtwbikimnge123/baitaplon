@@ -1,11 +1,7 @@
-﻿  Common.cpp
-  Game.cpp
+﻿  Game.cpp
   Game3x3.cpp
   Game3x3bot.cpp
   PlayGame.cpp
-  StartMenu.cpp
-  SwitchButton.cpp
-  Text.cpp
   main.cpp
   Generating Code...
   tictactoe.vcxproj -> C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\x64\Debug\tictactoe.exe
