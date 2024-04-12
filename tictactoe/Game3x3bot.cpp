@@ -57,7 +57,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				RenderRunningstate(x, y);
 
 				if (player == PLAYER_X) {
-					timetext.RenderText(80, 110);
+					timetext.RenderText(80, 120);
 				}
 				SDL_RenderPresent(gRenderer);
 
@@ -72,9 +72,11 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 							return;
 						}
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
-							x = e.button.x / CELL_WIDTH;
-							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-							Click(x, y, timer);
+							if (e.button.y >= SCREEN_HEIGHT - SCREEN_WIDTH) {
+								y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+								x = e.button.x / CELL_WIDTH;
+								Click(x, y, timer);
+							}
 							
 							RenderRunningstate(x, y);
 							SDL_RenderPresent(gRenderer);

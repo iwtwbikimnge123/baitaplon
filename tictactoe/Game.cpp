@@ -27,6 +27,7 @@ Game::Game() {
 	winCells[2] = std::make_pair(-1, -1);
 	winCells[3] = std::make_pair(-1, -1);
 	winCells[4] = std::make_pair(-1, -1);
+	boardColor = green;
 }
 
 Game::~Game() {
@@ -35,7 +36,6 @@ Game::~Game() {
 	}
 	delete[] board;
 }
-
 
 void Game::InitBoard() {
 	board = new Player * [N];
@@ -110,9 +110,12 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						return;
 					}
 					else if (e.type == SDL_MOUSEBUTTONDOWN) {
-						x = e.button.x / CELL_WIDTH;
-						y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-						Click(x, y, timer);
+						if (e.button.y >= SCREEN_HEIGHT - SCREEN_WIDTH) {
+							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+							x = e.button.x / CELL_WIDTH;
+							Click(x, y, timer);
+						}
+						
 						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
 							if (player == PLAYER_O) state = X_WON_STATE;
 							else state = O_WON_STATE;
@@ -126,6 +129,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						SDL_RenderPresent(gRenderer);
 					}
 				}
+
 				Uint32 finaltime = SDL_GetTicks() / 1000;
 				if (finaltime - starttime >= 1) {
 					timer--;
@@ -250,7 +254,7 @@ bool Game::CheckTie() {
 }
 
 void Game::Click(const int& x, const int& y, int& timer) {
-	if (board[y][x] == EMPTY) {
+	if (CheckInside(x, y) && board[y][x] == EMPTY) {
 		timer = 45;
 		board[y][x] = player;
 		ChangeTurn();
@@ -260,7 +264,7 @@ void Game::Click(const int& x, const int& y, int& timer) {
 void Game::RenderRunningstate(const int& x, const int& y) {
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 	SDL_RenderClear(gRenderer);
-	SDL_SetRenderDrawColor(gRenderer, 144, 238, 144, 0);
+	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, 0);
 
 	SDL_Rect rect;
 

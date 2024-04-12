@@ -45,12 +45,17 @@ public:
 	virtual void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
+
+	bool CheckInside(int i, int j) {
+		if (i < 0 || j < 0 || i >= N || j >= N) return false;
+		return true;
+	}
 protected:
 	int N;
 	int CELL_WIDTH;
 	int CELL_HEIGHT;
 	int cntXwin;
-	int cntOwin;
+	int cntOwin; 
 
 	Button continue_;
 	Button return_;
@@ -60,6 +65,8 @@ protected:
 	Player** board;
 	Player player;
 	GameState state;
+
+	SDL_Color boardColor;
 
 	std::pair <int, int> winCells[5];
 };

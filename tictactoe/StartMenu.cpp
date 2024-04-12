@@ -15,11 +15,11 @@ MenuStart::MenuStart() {
 
 	speaker.SetButtonType(SPEAKER);
 	speaker.SetPath();
-	speaker.SetRect(30, 550, 70, 70);
+	speaker.SetRect(30, 550, 50, 50);
 
 	focusSpeaker.SetButtonType(FOCUS_SPEAKER);
 	focusSpeaker.SetPath();
-	focusSpeaker.SetRect(30, 550, 70, 70);
+	focusSpeaker.SetRect(30, 550, 50, 50);
 
 	base.SetButtonType(BASE);
 	base.SetPath();
