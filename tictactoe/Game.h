@@ -22,35 +22,37 @@ public:
 
 	virtual void logic(SDL_Event& e, bool& quit);
 
-	virtual void Click(const int& x, const int& y, int& timer);
+	virtual void Click(int& timer);
 
-	virtual bool CheckWinRow(const int& x, const int& y);
+	virtual bool CheckWinRow();
 
-	virtual bool CheckWinCol(const int& x, const int& y);
+	virtual bool CheckWinCol();
 
-	virtual bool CheckWinDiag2(const int& x, const int& y);
+	virtual bool CheckWinDiag2();
 
-	virtual bool CheckWinDiag1(const int& x, const int& y);
+	virtual bool CheckWinDiag1();
 
 	bool CheckTie();
 
-	void RenderRunningstate(const int& x, const int& y);
+	void RenderRunningstate();
 
-	void DrawXCell(const int& x, const int& y);
+	void DrawXCell(const int& i, const int& j);
 
-	void DrawOCell(const int& x, const int& y);
+	void DrawOCell(const int& i, const int& j);
 
 	virtual void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 
-	void HandleEvent(SDL_Event& e, bool& quit, int& x, int& y, int& timer);
+	void HandleEvent(SDL_Event& e, bool& quit, int& timer);
 protected:
 	int N;
 	int CELL_WIDTH;
 	int CELL_HEIGHT;
 	int cntXwin;
 	int cntOwin;
+	int x;
+	int y;
 
 	Button continue_;
 	Button return_;

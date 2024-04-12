@@ -1,7 +1,7 @@
 #include"Game3x3bot.h"
 
-int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, int y) {
-	if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
+int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
+	if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 		if (isBotTurn) return INT_MIN;
 		else return INT_MAX;
 	}
@@ -11,8 +11,14 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, i
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (board[i][j] == EMPTY) {
+					int tmpX = x;
+					int tmpY = y;
+					x = j;
+					y = i;
 					board[i][j] = PLAYER_O;
-					int score = minimax(depth - 1, false, alpha, beta, j, i);
+					int score = minimax(depth - 1, false, alpha, beta);
+					x = tmpX;
+					y = tmpY;
 					board[i][j] = EMPTY;
 					alpha = std::max(alpha, score);
 					if (alpha >= beta) return alpha;
@@ -25,8 +31,14 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, i
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				if (board[i][j] == EMPTY) {
+					int tmpX = x;
+					int tmpY = y;
+					x = j;
+					y = i;
 					board[i][j] = PLAYER_X;
-					int score = minimax(depth - 1, true, alpha, beta, j, i);
+					int score = minimax(depth - 1, true, alpha, beta);
+					x = tmpX;
+					y = tmpY;
 					board[i][j] = EMPTY;
 					beta = std::min(beta, score);
 					if (alpha >= beta) return beta;
@@ -38,8 +50,8 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta, int x, i
 }
 
 void Game3x3bot::logic(SDL_Event& e, bool& quit) {
-	int x = -1;
-	int y = -1;
+	x = -1;
+	y = -1;
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
@@ -55,7 +67,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				timetext.SetColor(red);
 				timetext.SetText(displaytime);
 
-				RenderRunningstate(x, y);
+				RenderRunningstate();
 
 				if (player == PLAYER_X) {
 					timetext.RenderText(80, 120);
@@ -76,10 +88,10 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 							if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 								x = e.button.x / CELL_WIDTH;
 								y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-								Click(x, y, timer);
+								Click(timer);
 							}
 
-							RenderRunningstate(x, y);
+							RenderRunningstate();
 							SDL_RenderPresent(gRenderer);
 						}
 					}
@@ -91,7 +103,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 						for (int j = 0; j < N; j++) {
 							if (board[i][j] == EMPTY) {
 								board[i][j] = PLAYER_O;
-								int score = minimax(1, false, INT_MIN, INT_MAX, j, i);
+								int score = minimax(1, false, INT_MIN, INT_MAX);
 								board[i][j] = EMPTY;
 								if (res <= score) {
 									res = score;
@@ -104,7 +116,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					board[y][x] = PLAYER_O;
 					player = PLAYER_X;
 				}
-				if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
+				if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 					if (player == PLAYER_O) state = X_WON_STATE;
 					else state = O_WON_STATE;
 					break;
@@ -138,7 +150,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 	}
 }
 
-void Game3x3bot::Click(const int& x, const int& y, int& timer) {
+void Game3x3bot::Click(int& timer) {
 	if (board[y][x] == EMPTY) {
 		timer = 45;
 		player = PLAYER_O;

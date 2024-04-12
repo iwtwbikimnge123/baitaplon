@@ -7,7 +7,7 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
-		game.RenderRunningstate(-1, -1);
+		game.RenderRunningstate();
 		game.logic(e, quit);
 	}
 	else {
@@ -16,7 +16,7 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
-		game.RenderRunningstate(-1, -1);
+		game.RenderRunningstate();
 		game.logic(e, quit);
 	}
 }
@@ -28,7 +28,7 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
-		game.RenderRunningstate(-1, -1);
+		game.RenderRunningstate();
 		game.logic(e, quit);
 	}
 }
