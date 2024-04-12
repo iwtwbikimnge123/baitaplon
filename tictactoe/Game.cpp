@@ -110,9 +110,11 @@ void Game::logic(SDL_Event& e, bool& quit) {
 						return;
 					}
 					else if (e.type == SDL_MOUSEBUTTONDOWN) {
-						x = e.button.x / CELL_WIDTH;
-						y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-						Click(x, y, timer);
+						if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+							x = e.button.x / CELL_WIDTH;
+							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+							Click(x, y, timer);
+						}
 						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
 							if (player == PLAYER_O) state = X_WON_STATE;
 							else state = O_WON_STATE;

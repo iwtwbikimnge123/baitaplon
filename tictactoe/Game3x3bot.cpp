@@ -72,9 +72,11 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 							return;
 						}
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
-							x = e.button.x / CELL_WIDTH;
-							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-							Click(x, y, timer);
+							if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+								x = e.button.x / CELL_WIDTH;
+								y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+								Click(x, y, timer);
+							}
 
 							RenderRunningstate(x, y);
 							SDL_RenderPresent(gRenderer);
