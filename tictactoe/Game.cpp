@@ -111,33 +111,9 @@ void Game::logic(SDL_Event& e, bool& quit) {
 				}
 
 				SDL_RenderPresent(gRenderer);
-				while (SDL_PollEvent(&e)) {
 
-					SDL_RenderClear(gRenderer);
-					SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
-					if (e.type == SDL_QUIT) {
-						quit = true;
-						return;
-					}
-					else if (e.type == SDL_MOUSEBUTTONDOWN) {
-						if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
-							x = e.button.x / CELL_WIDTH;
-							y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-							Click(x, y, timer);
-						}
-						if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
-							if (player == PLAYER_O) state = X_WON_STATE;
-							else state = O_WON_STATE;
-							break;
-						}
-						else if (CheckTie()) {
-							state = TIE_STATE;
-							break;
-						}
-						RenderRunningstate(x, y);
-						SDL_RenderPresent(gRenderer);
-					}
-				}
+				HandleEvent(e, quit, x, y, timer);
+
 				Uint32 finaltime = SDL_GetTicks() / 1000;
 				if (finaltime - starttime >= 1) {
 					timer--;
@@ -436,4 +412,32 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 	}
 }
 
+void Game::HandleEvent(SDL_Event& e, bool& quit, int& x, int& y, int& timer) {
+	while (SDL_PollEvent(&e)) {
 
+		SDL_RenderClear(gRenderer);
+		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+		if (e.type == SDL_QUIT) {
+			quit = true;
+			return;
+		}
+		else if (e.type == SDL_MOUSEBUTTONDOWN) {
+			if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+				x = e.button.x / CELL_WIDTH;
+				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+				Click(x, y, timer);
+			}
+			if (CheckWinCol(x, y) || CheckWinRow(x, y) || CheckWinDiag1(x, y) || CheckWinDiag2(x, y)) {
+				if (player == PLAYER_O) state = X_WON_STATE;
+				else state = O_WON_STATE;
+				break;
+			}
+			else if (CheckTie()) {
+				state = TIE_STATE;
+				break;
+			}
+			RenderRunningstate(x, y);
+			SDL_RenderPresent(gRenderer);
+		}
+	}
+}

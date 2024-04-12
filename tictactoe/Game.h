@@ -43,6 +43,8 @@ public:
 	virtual void RenderEndStage();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
+
+	void HandleEvent(SDL_Event& e, bool& quit, int& x, int& y, int& timer);
 protected:
 	int N;
 	int CELL_WIDTH;
