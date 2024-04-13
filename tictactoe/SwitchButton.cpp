@@ -50,10 +50,10 @@ void Button::SetPath() {
 		path = "img/speaker1.png";
 		break;
 	case SWITCHLEVEL_MEDIUM:
-		//them
+		path = "img/medium.png";
 		break;
 	case SWITCHLEVEL_HARD:
-		//them
+		path = "img/hard.png";
 		break;
 	}
 }

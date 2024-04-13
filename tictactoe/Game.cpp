@@ -75,8 +75,7 @@ void Game::ChangeTurn() {
 }
 
 void Game::logic(SDL_Event& e, bool& quit) {
-	x = -1;
-	y = -1;
+
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;

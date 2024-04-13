@@ -50,8 +50,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
 }
 
 void Game3x3bot::logic(SDL_Event& e, bool& quit) {
-	x = -1;
-	y = -1;
+	
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
@@ -78,23 +77,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 
 				if (player == PLAYER_X) {
-					while (SDL_PollEvent(&e)) {
-
-						if (e.type == SDL_QUIT) {
-							quit = true;
-							return;
-						}
-						else if (e.type == SDL_MOUSEBUTTONDOWN) {
-							if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
-								x = e.button.x / CELL_WIDTH;
-								y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-								Click(timer);
-							}
-
-							RenderRunningstate();
-							SDL_RenderPresent(gRenderer);
-						}
-					}
+					HandleEvent(e, quit, timer);
 				}
 				else if (player == PLAYER_O) {
 					int res = INT_MIN;
@@ -155,5 +138,25 @@ void Game3x3bot::Click(int& timer) {
 		timer = 45;
 		player = PLAYER_O;
 		board[y][x] = PLAYER_X;
+	}
+}
+
+void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
+	while (SDL_PollEvent(&e)) {
+
+		if (e.type == SDL_QUIT) {
+			quit = true;
+			return;
+		}
+		else if (e.type == SDL_MOUSEBUTTONDOWN) {
+			if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+				x = e.button.x / CELL_WIDTH;
+				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+				Click(timer);
+			}
+
+			RenderRunningstate();
+			SDL_RenderPresent(gRenderer);
+		}
 	}
 }

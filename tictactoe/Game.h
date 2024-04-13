@@ -44,7 +44,7 @@ public:
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 
-	void HandleEvent(SDL_Event& e, bool& quit, int& timer);
+	virtual void HandleEvent(SDL_Event& e, bool& quit, int& timer);
 protected:
 	int N;
 	int CELL_WIDTH;
