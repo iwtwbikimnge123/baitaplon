@@ -9,11 +9,11 @@ Game3x3bot::Game3x3bot():Game3x3() {
 
 	chooseLevelMedium.SetButtonType(SWITCHLEVEL_MEDIUM);
 	chooseLevelMedium.SetPath();
-	chooseLevelMedium.SetRect(155, 15, 85, 35);
+	chooseLevelMedium.SetRect(300, 15, 85, 35);
 
 	chooseLevelHard.SetButtonType(SWITCHLEVEL_HARD);
 	chooseLevelHard.SetPath();
-	chooseLevelHard.SetRect(170, 10, 85, 30);
+	chooseLevelHard.SetRect(377, 15, 85, 35);
 }
 
 int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
@@ -22,6 +22,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
 		else return INT_MAX;
 	}
 	else if (CheckTie()) return 0;
+
 	if (isBotTurn) {
 		int res = INT_MIN;
 		for (int i = 0; i < N; i++) {
@@ -165,7 +166,43 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 			return;
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
-			if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+			if (CheckClick(chooseLevelMedium.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 2) {
+				boardColor = green;
+				gameLevelStatus = 0;
+
+				int x = chooseLevelHard.GetRect().x - 11;
+				while (x >= chooseLevelMedium.GetRect().x) {
+					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
+
+					RenderRunningstate();
+					base.RenderButton();
+
+					SDL_RenderPresent(gRenderer);
+					x -= 11;
+				}
+				gameLevelStatus = 1;
+				cntOwin = cntXwin = 0;
+				timer = 45;
+			}
+			else if (CheckClick(chooseLevelHard.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 1) {
+				boardColor = lightRed;
+				gameLevelStatus = 0;
+
+				int x = chooseLevelMedium.GetRect().x + 11;
+				while (x <= chooseLevelHard.GetRect().x) {
+					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
+
+					RenderRunningstate();
+					base.RenderButton();
+
+					SDL_RenderPresent(gRenderer);
+					x += 11;
+				}
+				gameLevelStatus = 2;
+				cntOwin = cntXwin = 0;
+				timer = 45;
+			}
+			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
 				menuType = STARTMENU;
 				break;
 			}
@@ -184,7 +221,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 void Game3x3bot::RenderRunningstate() {
 	Game3x3::RenderRunningstate();
 	
-	SDL_Rect rect = { 150, 10, 170, 45 };
+	SDL_Rect rect = { 295, 10, 170, 45 };
 	RenderImage("img/nut9.png", rect);
 
 	if (gameLevelStatus == 1) {
