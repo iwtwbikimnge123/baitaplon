@@ -81,7 +81,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
 			int timer = 45;
 
-			while (!quit && state == RUNNING_STATE) {
+			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
 				std::string displaytime = "00:" + std::to_string(timer);
 				Text timetext;
 				if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
@@ -422,7 +422,11 @@ void Game::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 			return;
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
-			if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+			if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+				menuType = STARTMENU;
+				break;
+			}
+			else if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 				x = e.button.x / CELL_WIDTH;
 				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
 				Click(timer);

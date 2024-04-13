@@ -8,8 +8,10 @@ private:
 	Button chooseLevelMedium;
 	Button chooseLevelHard;
 public:
+	Game3x3bot();
 	int minimax(int depth, bool isBotTurn, int alpha, int beta);
 	void logic(SDL_Event& e, bool& quit);
 	void Click(int& timer);
 	void HandleEvent(SDL_Event& e, bool& quit, int& timer);
+	void RenderRunningstate();
 };

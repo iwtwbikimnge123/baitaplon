@@ -1,5 +1,21 @@
 #include"Game3x3bot.h"
 
+Game3x3bot::Game3x3bot():Game3x3() {
+	gameLevelStatus = 1;
+
+	base.SetButtonType(BASE);
+	base.SetPath();
+	base.SetRect(85, 10, 85, 30);
+
+	chooseLevelMedium.SetButtonType(SWITCHLEVEL_MEDIUM);
+	chooseLevelMedium.SetPath();
+	chooseLevelMedium.SetRect(155, 15, 85, 35);
+
+	chooseLevelHard.SetButtonType(SWITCHLEVEL_HARD);
+	chooseLevelHard.SetPath();
+	chooseLevelHard.SetRect(170, 10, 85, 30);
+}
+
 int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
 	if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 		if (isBotTurn) return INT_MIN;
@@ -56,7 +72,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
 			int timer = 45;
 
-			while (!quit && state == RUNNING_STATE) {
+			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
 				std::string displaytime = "00:" + std::to_string(timer);
 				Text timetext;
 				if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
@@ -149,7 +165,11 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 			return;
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
-			if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
+			if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+				menuType = STARTMENU;
+				break;
+			}
+			else if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 				x = e.button.x / CELL_WIDTH;
 				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
 				Click(timer);
@@ -158,5 +178,19 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 			RenderRunningstate();
 			SDL_RenderPresent(gRenderer);
 		}
+	}
+}
+
+void Game3x3bot::RenderRunningstate() {
+	Game3x3::RenderRunningstate();
+	
+	SDL_Rect rect = { 150, 10, 170, 45 };
+	RenderImage("img/nut9.png", rect);
+
+	if (gameLevelStatus == 1) {
+		chooseLevelMedium.RenderButton();
+	}
+	else if (gameLevelStatus == 2) {
+		chooseLevelHard.RenderButton();
 	}
 }
