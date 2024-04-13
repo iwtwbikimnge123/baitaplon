@@ -2,6 +2,7 @@
 
 Game3x3bot::Game3x3bot():Game3x3() {
 	gameLevelStatus = 1;
+	depth = 0;
 
 	base.SetButtonType(BASE);
 	base.SetPath();
@@ -16,12 +17,14 @@ Game3x3bot::Game3x3bot():Game3x3() {
 	chooseLevelHard.SetRect(377, 15, 85, 35);
 }
 
-int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
+int Game3x3bot::minimax(int depth_, bool isBotTurn, int alpha, int beta) {
 	if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 		if (isBotTurn) return INT_MIN;
 		else return INT_MAX;
 	}
 	else if (CheckTie()) return 0;
+
+	if (depth_ == 0) return value(isBotTurn);
 
 	if (isBotTurn) {
 		int res = INT_MIN;
@@ -33,7 +36,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
 					x = j;
 					y = i;
 					board[i][j] = PLAYER_O;
-					int score = minimax(depth - 1, false, alpha, beta);
+					int score = minimax(depth_ - 1, false, alpha, beta);
 					x = tmpX;
 					y = tmpY;
 					board[i][j] = EMPTY;
@@ -53,7 +56,7 @@ int Game3x3bot::minimax(int depth, bool isBotTurn, int alpha, int beta) {
 					x = j;
 					y = i;
 					board[i][j] = PLAYER_X;
-					int score = minimax(depth - 1, true, alpha, beta);
+					int score = minimax(depth_ - 1, true, alpha, beta);
 					x = tmpX;
 					y = tmpY;
 					board[i][j] = EMPTY;
@@ -103,7 +106,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 						for (int j = 0; j < N; j++) {
 							if (board[i][j] == EMPTY) {
 								board[i][j] = PLAYER_O;
-								int score = minimax(1, false, INT_MIN, INT_MAX);
+								int score = minimax(depth, false, INT_MIN, INT_MAX);
 								board[i][j] = EMPTY;
 								if (res <= score) {
 									res = score;
@@ -183,6 +186,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				gameLevelStatus = 1;
 				cntOwin = cntXwin = 0;
 				timer = 45;
+				depth = 0;
 			}
 			else if (CheckClick(chooseLevelHard.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 1) {
 				boardColor = lightRed;
@@ -201,6 +205,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
 				timer = 45;
+				depth = 3;
 			}
 			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
 				menuType = STARTMENU;
@@ -230,4 +235,12 @@ void Game3x3bot::RenderRunningstate() {
 	else if (gameLevelStatus == 2) {
 		chooseLevelHard.RenderButton();
 	}
+}
+
+int Game3x3bot::value(bool isBotTurn) {
+	if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
+		if (isBotTurn) return INT_MIN;
+		else return INT_MAX;
+	}
+	else return 0;
 }
