@@ -173,7 +173,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				boardColor = green;
 				gameLevelStatus = 0;
 
-				int x = chooseLevelHard.GetRect().x - 11;
+				int x = chooseLevelHard.GetRect().x - 19;
 				while (x >= chooseLevelMedium.GetRect().x) {
 					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
 
@@ -181,7 +181,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 					base.RenderButton();
 
 					SDL_RenderPresent(gRenderer);
-					x -= 11;
+					x -= 19;
 				}
 				gameLevelStatus = 1;
 				cntOwin = cntXwin = 0;
@@ -192,7 +192,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				boardColor = lightRed;
 				gameLevelStatus = 0;
 
-				int x = chooseLevelMedium.GetRect().x + 11;
+				int x = chooseLevelMedium.GetRect().x + 19;
 				while (x <= chooseLevelHard.GetRect().x) {
 					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
 
@@ -200,12 +200,12 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 					base.RenderButton();
 
 					SDL_RenderPresent(gRenderer);
-					x += 11;
+					x += 19;
 				}
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
 				timer = 45;
-				depth = 3;
+				depth = 2;
 			}
 			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
 				menuType = STARTMENU;

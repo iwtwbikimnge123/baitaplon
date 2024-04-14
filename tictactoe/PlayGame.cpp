@@ -1,5 +1,6 @@
 #include "PlayGame.h"
 
+
 void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 	if (n == 15) {
 		Game game;
@@ -31,4 +32,15 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 		game.RenderRunningstate();
 		game.logic(e, quit);
 	}
+	/*
+	else {
+		Game15x15bot game;
+		game.SetN(15);
+		game.InitBoard();
+		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+		SDL_RenderClear(gRenderer);
+		game.RenderRunningstate();
+		game.logic(e, quit);
+	}
+	*/
 }

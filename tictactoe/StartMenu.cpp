@@ -228,6 +228,7 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				if (chooseSizeStatus == 1 && choosePlayerStatus == 2) menuType = PLAY3x3_2PLAYER;
 				else if (chooseSizeStatus == 2 && choosePlayerStatus == 2) menuType = PLAY15X15_2PLAYER;
 				else if (chooseSizeStatus == 1 && choosePlayerStatus == 1) menuType = PLAY3X3_WITHBOT;
+				else if (chooseSizeStatus == 2 && choosePlayerStatus == 1) menuType = PLAY15X15_WITHBOT;
 				return;
 			}
 		}

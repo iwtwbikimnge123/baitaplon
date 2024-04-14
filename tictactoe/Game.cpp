@@ -31,6 +31,7 @@ Game::Game() {
 
 	player = PLAYER_X;
 	state = RUNNING_STATE;
+
 	winCells[0] = std::make_pair(-1, -1);
 	winCells[1] = std::make_pair(-1, -1);
 	winCells[2] = std::make_pair(-1, -1);

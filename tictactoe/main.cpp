@@ -30,6 +30,10 @@ int main(int argc, char* argv[])
 			PlayGameBot(3, e, quit);
 			menuStart.RestartMenu();
 			break;
+		case PLAY15X15_WITHBOT:
+			PlayGameBot(15, e, quit);
+			menuStart.RestartMenu();
+			break;
 		}
 		
 		
