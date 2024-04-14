@@ -205,7 +205,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
 				timer = 45;
-				depth = 2;
+				depth = 1;
 			}
 			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
 				menuType = STARTMENU;

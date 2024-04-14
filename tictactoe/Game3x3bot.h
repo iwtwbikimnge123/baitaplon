@@ -2,7 +2,7 @@
 #include "Game3x3.h"
 
 class Game3x3bot : public Game3x3 {
-private:
+protected:
 	int gameLevelStatus;
 	int depth;
 	Button base;

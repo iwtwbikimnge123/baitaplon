@@ -1,4 +1,22 @@
-﻿  main.cpp
-  PlayGame.cpp
-  Generating Code...
+﻿  Game15x15bot.cpp
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(30,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(34,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(36,45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(52,25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(66,83): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(68,25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(72,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(81,70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(82,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(84,45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(111,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(115,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(117,45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(133,25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(147,83): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(149,25): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(153,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(162,70): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(163,46): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\Game15x15bot.cpp(165,45): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   tictactoe.vcxproj -> C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\tictactoe\x64\Debug\tictactoe.exe
