@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 		
 		
 	}
-
+	std::cout << 1;
 	Close();
 	return 0;
 }
