@@ -66,5 +66,6 @@ protected:
 	GameState state;
 
 	SDL_Color boardColor;
+
 	std::pair <int, int> winCells[5];
 };

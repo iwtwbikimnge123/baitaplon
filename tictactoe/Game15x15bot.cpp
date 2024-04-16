@@ -4,6 +4,172 @@ const int di[4] = { 1, 1, 1, 0 };
 const int dj[4] = { -1, 0, 1, 1 };
 
 int Game15x15bot::value(bool isBotTurn) {
+	/*
+	int val = 0;
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (board[i][j] == PLAYER_X) {
+				for (int k = 0; k < 4; k++) {
+					int curval = 1;
+					bool block = false;
+					for (int m = 1; m < 5; m++) {
+						if (!checkinside(i + di[k] * m, j + dj[k] * m) ||
+							board[i + di[k] * m][j + dj[k] * m] == PLAYER_O) {
+
+							block = true;
+
+							if (!checkinside(i - di[k], j - dj[k]) ||
+								board[i - di[k]][j - dj[k]] == PLAYER_O ||
+								curval == 1) {
+								curval = 0;
+							}
+
+							else if (board[i - di[k]][j - dj[k]] == EMPTY) {
+								if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_X) {
+									if (curval == 3) curval = 8;
+									else if (curval == 2) curval = 0;
+									else if (curval == 4) curval = 19;
+									break;
+								}
+								else if (curval == 3) {
+									if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
+										board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) curval = 18;
+									else curval = 8;
+								}
+								else if (curval == 2) {
+									if (m == 4 && checkinside(i - di[k] * 2, j - dj[k] * 2) &&
+										board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) curval = 7;
+								}
+								else {
+									curval = 0;
+								}
+							}
+							break;
+						}
+						else if (board[i + di[k] * m][j + dj[k] * m] == PLAYER_X) curval++;
+					}
+
+					if (!block) {
+						if (checkinside(i - di[k], j - dj[k]) &&
+							board[i - di[k]][j - dj[k]] == EMPTY) {
+							if (curval == 2) {
+								if (board[i + di[k] * 4][j + dj[k] * 4] == PLAYER_X) curval = 0;
+								else curval = 7;
+							}
+							else if (board[i + di[k] * 4][j + dj[k] * 4] != PLAYER_X) {
+								if (curval == 4) curval = 1000;
+								else if (curval == 3) curval = 18;
+							}
+							else if (checkinside(i + di[k] * 5, j + dj[k] * 5) &&
+								board[i + di[k] * 5][j + dj[k] * 5] == EMPTY) {
+								if (curval == 5) curval = 10000;
+								else if (curval == 4) {
+									if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) curval = 1000;
+									else if (board[i + di[k] * 2][j + dj[k] * 2] == EMPTY) curval = 19;
+									else curval = 20;
+								}
+								else if (curval == 3) curval = 18;
+							}
+							else {
+								if (curval == 4) curval = 19;
+								else if (curval == 3) curval = 8;
+							}
+						}
+
+						else {
+							if (curval == 5) curval = 10000;
+							else if (curval == 4) curval = 19;
+							else if (curval == 3) curval = 8;
+							else curval = 0;
+						}
+					}
+					val -= curval;
+				}
+			}
+			else if (board[i][j] == PLAYER_O) {
+				for (int k = 0; k < 4; k++) {
+					int curval = 1;
+					bool block = false;
+					for (int m = 1; m < 5; m++) {
+						if (!checkinside(i + di[k] * m, j + dj[k] * m) ||
+							board[i + di[k] * m][j + dj[k] * m] == PLAYER_X) {
+							block = true;
+
+
+							if (!checkinside(i - di[k], j - dj[k]) ||
+								board[i - di[k]][j - dj[k]] == PLAYER_X ||
+								curval == 1) {
+								curval = 0;
+							}
+
+							else if (board[i - di[k]][j - dj[k]] == EMPTY) {
+								if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_O) {
+									if (curval == 3) curval = 8;
+									else if (curval == 2) curval = 0;
+									else if (curval == 4) curval = 19;
+									break;
+								}
+								else if (curval == 3) {
+									if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
+										board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) curval = 18;
+									else curval = 8;
+								}
+								else if (curval == 2) {
+									if (m == 4 && checkinside(i - di[k] * 2, j - dj[k] * 2) &&
+										board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) curval = 7;
+								}
+								else {
+									curval = 0;
+								}
+							}
+							break;
+						}
+						else if (board[i + di[k] * m][j + dj[k] * m] == PLAYER_O) curval++;
+					}
+					if (!block) {
+
+						if (checkinside(i - di[k], j - dj[k]) &&
+							board[i - di[k]][j - dj[k]] == EMPTY) {
+							if (curval == 2) {
+								if (board[i + di[k] * 4][j + dj[k] * 4] == PLAYER_O) curval = 0;
+								else curval = 7;
+							}
+							else if (board[i + di[k] * 4][j + dj[k] * 4] != PLAYER_O) {
+								if (curval == 4) curval = 1000;
+								else if (curval == 3) curval = 18;
+							}
+							else if (checkinside(i + di[k] * 5, j + dj[k] * 5) &&
+								board[i + di[k] * 5][j + dj[k] * 5] == EMPTY) {
+								if (curval == 5) curval = 10000;
+								else if (curval == 4) {
+									if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) curval = 1000;
+									else if (board[i + di[k] * 2][j + dj[k] * 2] == EMPTY) curval = 19;
+									else curval = 20;
+								}
+								else if (curval == 3) curval = 18;
+							}
+							else {
+								if (curval == 4) curval = 19;
+								else if (curval == 3) curval = 8;
+							}
+						}
+
+						else {
+							if (curval == 5) curval = 10000;
+							else if (curval == 4) curval = 19;
+							else if (curval == 3) curval = 8;
+							else curval = 0;
+						}
+					}
+					val += curval;
+				}
+			}
+		}
+	}
+	return val;
+	*/
+	
 	int val = 0;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -27,13 +193,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							}
 							else if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_X) {
 								if (curR == 2) point = 0;
-								else point = pow(10, 2 * (curR - 1)) / 5;
+								else point = pow(10, curR - 2) + 1;
 							}
 							else if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
 								board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) {
-								point = pow(10, 2 * (curR - 1));
+								point = pow(10, curR - 1);
 							}
-							else point = pow(10, 2 * (curR - 1)) / 4;
+							else point = pow(10, curR - 2) + 1;
 
 							break;
 						}
@@ -49,11 +215,11 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
 								if (board[i + 4 * di[k]][j + 4 * dj[k]] == PLAYER_X) point = 0;
-								else point = pow(10, 2 * (curR - 1));
+								else point = pow(10, curR - 1);
 							}
 							else point = 0;
 						}
-						else if (curR == 5) point = 10000000;
+						else if (curR == 5) point = 100000000;
 						//_|_____|O
 
 
@@ -63,13 +229,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) {
 								//O|XXX__|O
 								if (!checkinside(i - di[k], j - dj[k]) ||
-									board[i - di[k]][j - dj[k]] == PLAYER_O) point = pow(10, 2 * (curR - 1)) / 4;
+									board[i - di[k]][j - dj[k]] == PLAYER_O) point = pow(10, curR - 2) + 1;
 								//_|X_XX_|O
-								else point = pow(10, 2 * (curR - 1));
+								else point = pow(10, curR - 1);
 
 							}
 							//_|X___X|O
-							else  point = pow(10, 2 * (curR - 1)) / 4;
+							else  point = pow(10, curR - 2) + 1;
 
 						}
 
@@ -78,10 +244,10 @@ int Game15x15bot::value(bool isBotTurn) {
 
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
-								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, 2 * (curR - 1));
-								else point = pow(10, 2 * (curR - 1)) / 3;
+								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, curR - 1);
+								else point = pow(10, curR - 2) + 2;
 							}
-							else point = pow(10, 2 * (curR - 1)) / 4;
+							else point = pow(10, curR - 2) + 1;
 
 						}
 					}
@@ -108,13 +274,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							}
 							else if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_O) {
 								if (curR == 2) point = 0;
-								else point = pow(10, 2 * (curR - 1)) / 5;
+								else point = pow(10, curR - 2) + 1;
 							}
 							else if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
 								board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) {
-								point = pow(10, 2 * (curR - 1));
+								point = pow(10, curR - 1);
 							}
-							else point = pow(10, 2 * (curR - 1)) / 4;
+							else point = pow(10, curR - 2) + 1;
 
 							break;
 						}
@@ -129,12 +295,12 @@ int Game15x15bot::value(bool isBotTurn) {
 						else if (curR == 2) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
-								if (board[i + 4 * di[k]][j + 4 * dj[k]] == PLAYER_O) point = 0;
-								else point = pow(10, 2 * (curR - 1));
+								if (board[i + 4 * di[k]][j + 4 * dj[k]] == PLAYER_X) point = 0;
+								else point = pow(10, curR - 1);
 							}
 							else point = 0;
 						}
-						else if (curR == 5) point = 10000000;
+						else if (curR == 5) point = 100000000;
 						//_|_____|O
 
 
@@ -144,13 +310,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) {
 								//O|XXX__|O
 								if (!checkinside(i - di[k], j - dj[k]) ||
-									board[i - di[k]][j - dj[k]] == PLAYER_X) point = pow(10, 2 * (curR - 1)) / 4;
+									board[i - di[k]][j - dj[k]] == PLAYER_X) point = pow(10, curR - 2) + 1;
 								//_|X_XX_|O
-								else point = pow(10, 2 * (curR - 1));
+								else point = pow(10, curR - 1);
 
 							}
 							//_|X___X|O
-							else  point = pow(10, 2 * (curR - 1)) / 4;
+							else  point = pow(10, curR - 2) + 1;
 
 						}
 
@@ -159,10 +325,10 @@ int Game15x15bot::value(bool isBotTurn) {
 
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
-								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, 2 * (curR - 1));
-								else point = pow(10, 2 * (curR - 1)) / 3;
+								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, curR - 1);
+								else point = pow(10, curR - 2) + 2;
 							}
-							else point = pow(10, 2 * (curR - 1)) / 4;
+							else point = pow(10, curR - 2) + 1;
 
 						}
 					}
@@ -172,6 +338,7 @@ int Game15x15bot::value(bool isBotTurn) {
 		}
 	}
 	return val;
+	
 
 }
 
@@ -313,6 +480,9 @@ void Game15x15bot::RenderEndStage() {
 	return_.RenderButton();
 	continue_.RenderButton();
 	SDL_RenderPresent(gRenderer);
+
+
+	Mix_PlayChannel(-1, gChunk_over, 0);
 
 }
 

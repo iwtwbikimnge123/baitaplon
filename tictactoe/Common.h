@@ -10,7 +10,12 @@
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;
 extern SDL_Texture* gTexture;
+
+extern Mix_Music* gMusic;
 extern Mix_Chunk* gChunk;
+extern Mix_Chunk* gChunk_toggle;
+extern Mix_Chunk* gChunk_click;
+extern Mix_Chunk* gChunk_over;
 
 const SDL_Color white = { 255, 255, 255, 255 };
 const SDL_Color red = { 255, 0, 0, 0 };

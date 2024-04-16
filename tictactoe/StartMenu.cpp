@@ -115,6 +115,8 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(choosePlayer1.GetRect(), e.button.x, e.button.y) && choosePlayerStatus == 2) {
 
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(gRenderer);
 
@@ -144,6 +146,9 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				choosePlayerStatus = 1;
 			}
 			else if (CheckClick(choosePlayer2.GetRect(), e.button.x, e.button.y) && choosePlayerStatus == 1) {
+
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(gRenderer);
 
@@ -173,6 +178,9 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				choosePlayerStatus = 2;
 			}
 			else if (CheckClick(chooseSize3x3.GetRect(), e.button.x, e.button.y) && chooseSizeStatus == 2) {
+
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(gRenderer);
 
@@ -199,6 +207,9 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				chooseSizeStatus = 1;
 			}
 			else if (CheckClick(chooseSize15x15.GetRect(), e.button.x, e.button.y) && chooseSizeStatus == 1) {
+
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
 				SDL_RenderClear(gRenderer);
 
@@ -225,11 +236,25 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				chooseSizeStatus = 2;
 			}
 			else if (CheckClick(start.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
 				if (chooseSizeStatus == 1 && choosePlayerStatus == 2) menuType = PLAY3x3_2PLAYER;
 				else if (chooseSizeStatus == 2 && choosePlayerStatus == 2) menuType = PLAY15X15_2PLAYER;
 				else if (chooseSizeStatus == 1 && choosePlayerStatus == 1) menuType = PLAY3X3_WITHBOT;
 				else if (chooseSizeStatus == 2 && choosePlayerStatus == 1) menuType = PLAY15X15_WITHBOT;
 				return;
+			}
+			else if (CheckClick(speaker.GetRect(), e.button.x, e.button.y)) {
+				
+				Mix_PlayChannel(-1, gChunk, 0);
+
+				if (Mix_PausedMusic() == 1) {
+					Mix_ResumeMusic();
+				}
+				else {
+					Mix_PauseMusic();
+				}
 			}
 		}
 		else if (e.type = SDL_MOUSEMOTION) {

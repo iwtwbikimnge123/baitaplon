@@ -91,4 +91,7 @@ void Game3x3::RenderEndStage() {
 	return_.RenderButton();
 	continue_.RenderButton();
 	SDL_RenderPresent(gRenderer);
+
+	Mix_PlayChannel(-1, gChunk_over, 0);
+
 }

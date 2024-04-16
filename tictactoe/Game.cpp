@@ -243,6 +243,9 @@ void Game::Click(int& timer) {
 		timer = 45;
 		board[y][x] = player;
 		ChangeTurn();
+
+		Mix_PlayChannel(-1, gChunk_click, 0);
+
 	}
 }
 
@@ -331,7 +334,6 @@ void Game::DrawOCell(const int& i, const int& j) {
 	RenderImage("img/O.png", rect);
 }
 
-
 void Game::RenderEndStage() {
 	RenderRunningstate();
 	if (state == O_WON_STATE) {
@@ -380,6 +382,8 @@ void Game::RenderEndStage() {
 	continue_.RenderButton();
 	SDL_RenderPresent(gRenderer);
 
+	Mix_PlayChannel(-1, gChunk_over, 0);
+
 }
 
 void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
@@ -392,10 +396,18 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(return_.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
 				menuType = STARTMENU;
 				state = RUNNING_STATE;
 			}
-			else if (CheckClick(continue_.GetRect(), e.button.x, e.button.y)) InitBoard();
+			else if (CheckClick(continue_.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
+				InitBoard();
+			}
 		}
 		else if (e.type == SDL_MOUSEMOTION) {
 			if (CheckClick(focusReturn.GetRect(), e.motion.x, e.motion.y)) {
@@ -424,14 +436,30 @@ void Game::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
 				menuType = STARTMENU;
 				break;
+			}
+			else if (CheckClick(speaker.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
+				if (Mix_PausedMusic() == 1) {
+					Mix_ResumeMusic();
+				}
+				else {
+					Mix_PauseMusic();
+				}
 			}
 			else if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 				x = e.button.x / CELL_WIDTH;
 				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
+
 				Click(timer);
 			}
+
 			if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 				if (player == PLAYER_O) state = X_WON_STATE;
 				else state = O_WON_STATE;

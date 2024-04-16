@@ -2,7 +2,7 @@
 
 Game3x3bot::Game3x3bot():Game3x3() {
 	gameLevelStatus = 1;
-	depth = 0;
+	depth = 1;
 
 	base.SetButtonType(BASE);
 	base.SetPath();
@@ -106,16 +106,23 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 						for (int j = 0; j < N; j++) {
 							if (board[i][j] == EMPTY) {
 								board[i][j] = PLAYER_O;
+								int tmpX = x;
+								int tmpY = y;
+								x = j;
+								y = i;
 								int score = minimax(depth, false, INT_MIN, INT_MAX);
 								board[i][j] = EMPTY;
-								if (res <= score) {
-									res = score;
-									x = j;
-									y = i;
+								if (res <= score) res = score;
+								else {
+									x = tmpX;
+									y = tmpY;
 								}
 							}
 						}
 					}
+
+					std::cout << res << std::endl;
+
 					board[y][x] = PLAYER_O;
 					player = PLAYER_X;
 				}
@@ -155,6 +162,9 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 
 void Game3x3bot::Click(int& timer) {
 	if (board[y][x] == EMPTY) {
+
+		Mix_PlayChannel(-1, gChunk_click, 0);
+
 		timer = 45;
 		player = PLAYER_O;
 		board[y][x] = PLAYER_X;
@@ -170,6 +180,9 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(chooseLevelMedium.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 2) {
+
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				boardColor = green;
 				gameLevelStatus = 0;
 
@@ -186,9 +199,12 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				gameLevelStatus = 1;
 				cntOwin = cntXwin = 0;
 				timer = 45;
-				depth = 0;
+				depth = 1;
 			}
 			else if (CheckClick(chooseLevelHard.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 1) {
+
+				Mix_PlayChannel(-1, gChunk_toggle, 0);
+
 				boardColor = lightRed;
 				gameLevelStatus = 0;
 
@@ -205,11 +221,25 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
 				timer = 45;
-				depth = 1;
+				depth = 2;
 			}
 			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
 				menuType = STARTMENU;
 				break;
+			}
+			else if (CheckClick(speaker.GetRect(), e.button.x, e.button.y)) {
+
+				Mix_PlayChannel(-1, gChunk, 0);
+
+				if (Mix_PausedMusic() == 1) {
+					Mix_ResumeMusic();
+				}
+				else {
+					Mix_PauseMusic();
+				}
 			}
 			else if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 				x = e.button.x / CELL_WIDTH;

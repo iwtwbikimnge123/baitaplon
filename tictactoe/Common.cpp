@@ -2,12 +2,23 @@
 
 SDL_Window* gWindow = NULL;
 SDL_Renderer* gRenderer = NULL;
+
+Mix_Music* gMusic = NULL;
 Mix_Chunk* gChunk = NULL;
+Mix_Chunk* gChunk_toggle = NULL;
+Mix_Chunk* gChunk_click = NULL;
+Mix_Chunk* gChunk_over = NULL;
 
 MenuType menuType = STARTMENU;
 
 bool Init() {
 	if (SDL_INIT_EVERYTHING < 0) return false;
+
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+	{
+		std::cout << Mix_GetError();
+		return false;
+	}
 
 	int imgFlags = IMG_INIT_PNG;
 	if (!(IMG_Init(imgFlags) & imgFlags)) return false;
@@ -19,6 +30,38 @@ bool Init() {
 
 	gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
 	if (!gRenderer) return false;
+
+	gChunk = Mix_LoadWAV("img/click.wav");
+	if (!gChunk) {
+		std::cout << Mix_GetError();
+		return false;
+	}
+
+	gChunk_toggle = Mix_LoadWAV("img/toggle.wav");
+	if (!gChunk_toggle) {
+		std::cout << Mix_GetError();
+		return false;
+	}
+
+	gChunk_click = Mix_LoadWAV("img/pick.wav");
+	if (!gChunk_click) {
+		std::cout << Mix_GetError();
+		return false;
+	}
+
+	gChunk_over = Mix_LoadWAV("img/gameover.wav");
+	if (!gChunk_over) {
+		std::cout << Mix_GetError();
+		return false;
+	}
+
+	gMusic = Mix_LoadMUS("img/music.wav");
+	if (!gMusic) {
+		std::cout << Mix_GetError();
+		return false;
+	}
+
+	Mix_PlayMusic(gMusic, -1);
 
 	return true;
 
@@ -64,6 +107,22 @@ void Close() {
 
 	Mix_FreeChunk(gChunk);
 	gChunk = NULL;
+
+	Mix_FreeChunk(gChunk_toggle);
+	gChunk_toggle = NULL;
+
+	Mix_FreeChunk(gChunk_click);
+	gChunk_toggle = NULL;
+
+	Mix_FreeChunk(gChunk_over);
+	gChunk_toggle = NULL;
+
+	Mix_FreeMusic(gMusic);
+	gMusic = NULL;
+
+	Mix_Quit();
+	IMG_Quit();
+	SDL_Quit();
 }
 
 
