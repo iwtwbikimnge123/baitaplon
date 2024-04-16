@@ -55,7 +55,7 @@ bool Init() {
 		return false;
 	}
 
-	gMusic = Mix_LoadMUS("img/music.wav");
+	gMusic = Mix_LoadMUS("img/nhac.wav");
 	if (!gMusic) {
 		std::cout << Mix_GetError();
 		return false;
