@@ -188,6 +188,10 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 
 				int x = chooseLevelHard.GetRect().x - 19;
 				while (x >= chooseLevelMedium.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
 
 					RenderRunningstate();
@@ -195,6 +199,12 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 
 					SDL_RenderPresent(gRenderer);
 					x -= 19;
+
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
+
 				}
 				gameLevelStatus = 1;
 				cntOwin = cntXwin = 0;
@@ -210,6 +220,10 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 
 				int x = chooseLevelMedium.GetRect().x + 19;
 				while (x <= chooseLevelHard.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, chooseLevelMedium.GetRect().y, chooseLevelMedium.GetRect().w, chooseLevelMedium.GetRect().h);
 
 					RenderRunningstate();
@@ -217,6 +231,11 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 
 					SDL_RenderPresent(gRenderer);
 					x += 19;
+
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
 				}
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
@@ -264,6 +283,13 @@ void Game3x3bot::RenderRunningstate() {
 	}
 	else if (gameLevelStatus == 2) {
 		chooseLevelHard.RenderButton();
+	}
+	if (player == PLAYER_O) {
+		Text wait;
+		wait.OpenFont(15, "img/gamecuben.ttf");
+		wait.SetColor(red);
+		wait.SetText("calculating...");
+		wait.RenderText(320, 120);
 	}
 }
 

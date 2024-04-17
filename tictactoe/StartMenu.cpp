@@ -104,10 +104,9 @@ void MenuStart::RenderBaseMenu() {
 
 void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
-	Uint32 frameStart;
-	Uint32 frameTime;
+	
 	while (SDL_PollEvent(&e)) {
-		frameStart = SDL_GetTicks();
+		
 		if (e.type == SDL_QUIT) {
 			quit = true;
 			return;
@@ -126,6 +125,10 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				int x = choosePlayer2.GetRect().x - 29;
 
 				while (x >= choosePlayer1.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, choosePlayer1.GetRect().y, choosePlayer1.GetRect().w, choosePlayer1.GetRect().h);
 
 					RenderBaseMenu();
@@ -136,6 +139,12 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
 					SDL_RenderPresent(gRenderer);
 					x -= 29;
+
+					//muot
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
 				}
 
 				if (chooseSizeStatus == 1) chooseSize3x3.RenderButton();
@@ -158,6 +167,10 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				int x = choosePlayer1.GetRect().x + 29;
 
 				while (x <= choosePlayer2.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, choosePlayer1.GetRect().y, choosePlayer1.GetRect().w, choosePlayer1.GetRect().h);
 
 					RenderBaseMenu();
@@ -168,6 +181,12 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
 					SDL_RenderPresent(gRenderer);
 					x += 29;
+
+					//cho muot
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
 				}
 
 				if (chooseSizeStatus == 1) chooseSize3x3.RenderButton();
@@ -190,6 +209,10 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				int x = chooseSize15x15.GetRect().x - 29;
 
 				while (x >= chooseSize3x3.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, chooseSize3x3.GetRect().y, chooseSize3x3.GetRect().w, chooseSize3x3.GetRect().h);
 
 					RenderBaseMenu();
@@ -200,6 +223,12 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
 					SDL_RenderPresent(gRenderer);
 					x -= 29;
+
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
+
 				}
 
 				chooseSize3x3.RenderButton();
@@ -219,6 +248,10 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				int x = chooseSize3x3.GetRect().x + 29;
 
 				while (x <= chooseSize15x15.GetRect().x) {
+
+					Uint32 frameStart = SDL_GetTicks();
+					Uint32 frameTime;
+
 					base.SetRect(x, chooseSize3x3.GetRect().y, chooseSize3x3.GetRect().w, chooseSize3x3.GetRect().h);
 
 					RenderBaseMenu();
@@ -229,6 +262,12 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 
 					SDL_RenderPresent(gRenderer);
 					x += 29;
+
+					frameTime = SDL_GetTicks() - frameStart;
+					if (frameDelay > frameTime) {
+						SDL_Delay(frameDelay - frameTime);
+					}
+					std::cout << frameTime << std::endl;
 				}
 
 				chooseSize15x15.RenderButton();
@@ -272,10 +311,7 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				SDL_RenderPresent(gRenderer);
 			}
 		}
-		frameTime = SDL_GetTicks() - frameStart;
-		if (frameDelay > frameTime) {
-			SDL_Delay(frameDelay - frameTime);
-		}
+		
 	}
 }
 

@@ -27,7 +27,7 @@ const SDL_Color lightRed = { 255, 192, 203, 0};
 
 const int SCREEN_WIDTH = 495;
 const int SCREEN_HEIGHT = 640;
-const int FPS = 60;
+const int FPS = 20;
 const int frameDelay = 1000 / FPS;
 
 enum Player {
