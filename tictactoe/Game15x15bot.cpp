@@ -343,146 +343,20 @@ int Game15x15bot::value(bool isBotTurn) {
 }
 
 bool Game15x15bot::CheckWinRow() {
-	int minrow = std::max(0, x - 4);
-	int maxrow = std::min(N - 1, x + 4);
-	for (int i = minrow; i <= maxrow - 4; i++) {
-		if (board[y][i] != EMPTY &&
-			board[y][i] == board[y][i + 1] &&
-			board[y][i + 1] == board[y][i + 2] &&
-			board[y][i + 2] == board[y][i + 3] &&
-			board[y][i + 3] == board[y][i + 4]) {
-			winCells[0] = std::make_pair(y, i);
-			winCells[1] = std::make_pair(y, i + 1);
-			winCells[2] = std::make_pair(y, i + 2);
-			winCells[3] = std::make_pair(y, i + 3);
-			winCells[4] = std::make_pair(y, i + 4);
-			return true;
-		}
-	}
-	return false;
+	return Game::CheckWinRow();
 }
 bool Game15x15bot::CheckWinCol() {
-	int mincol = std::max(0, y - 4);
-	int maxcol = std::min(N - 1, y + 4);
-	for (int i = mincol; i <= maxcol - 4; i++) {
-		if (board[i][x] != EMPTY &&
-			board[i][x] == board[i + 1][x] &&
-			board[i + 1][x] == board[i + 2][x] &&
-			board[i + 2][x] == board[i + 3][x] &&
-			board[i + 3][x] == board[i + 4][x]) {
-			winCells[0] = std::make_pair(i, x);
-			winCells[1] = std::make_pair(i + 1, x);
-			winCells[2] = std::make_pair(i + 2, x);
-			winCells[3] = std::make_pair(i + 3, x);
-			winCells[4] = std::make_pair(i + 4, x);
-			return true;
-		}
-	}
-	return false;
+	return Game::CheckWinCol();
 }
 bool Game15x15bot::CheckWinDiag2() {
-	int upd, downd;
-	if (x >= N - 4 || y < 4) {
-		upd = -std::min(y, N - x - 1);
-	}
-	else upd = -4;
-	if (x < 4 || y >= N - 4) {
-		downd = std::min(N - y - 1, x);
-	}
-	else downd = 4;
-	for (int i = upd; i <= downd - 4; i++) {
-		if (board[y + i][x - i] != EMPTY &&
-			board[y + i][x - i] == board[y + i + 1][x - i - 1] &&
-			board[y + i + 1][x - i - 1] == board[y + i + 2][x - i - 2] &&
-			board[y + i + 2][x - i - 2] == board[y + i + 3][x - i - 3] &&
-			board[y + i + 3][x - i - 3] == board[y + i + 4][x - i - 4]) {
-			winCells[0] = std::make_pair(y + i, x - i);
-			winCells[1] = std::make_pair(y + i + 1, x - i - 1);
-			winCells[2] = std::make_pair(y + i + 2, x - i - 2);
-			winCells[3] = std::make_pair(y + i + 3, x - i - 3);
-			winCells[4] = std::make_pair(y + i + 4, x - i - 4);
-			return true;
-		}
-	}
-	return false;
+	return Game::CheckWinDiag2();
 }
 bool Game15x15bot::CheckWinDiag1() {
-	int upd, downd;
-	if (x < 4 || y < 4) {
-		upd = -std::min(y, x);
-	}
-	else upd = -4;
-	if (x >= N - 4 || y >= N - 4) {
-		downd = std::min(N - y, N - x) - 1;
-	}
-	else downd = 4;
-	for (int i = upd; i <= downd - 4; i++) {
-		if (board[y + i][x + i] != EMPTY &&
-			board[y + i][x + i] == board[y + i + 1][x + i + 1] &&
-			board[y + i + 1][x + i + 1] == board[y + i + 2][x + i + 2] &&
-			board[y + i + 2][x + i + 2] == board[y + i + 3][x + i + 3] &&
-			board[y + i + 3][x + i + 3] == board[y + i + 4][x + i + 4]) {
-			winCells[0] = std::make_pair(y + i, x + i);
-			winCells[1] = std::make_pair(y + i + 1, x + i + 1);
-			winCells[2] = std::make_pair(y + i + 2, x + i + 2);
-			winCells[3] = std::make_pair(y + i + 3, x + i + 3);
-			winCells[4] = std::make_pair(y + i + 4, x + i + 4);
-			return true;
-		}
-	}
-	return false;
+	return Game::CheckWinDiag1();
 }
 
 void Game15x15bot::RenderEndStage() {
-	RenderRunningstate();
-	if (state == O_WON_STATE) {
-		cntOwin++;
-
-		for (int i = 0; i < 5; i++) {
-			SDL_Rect rect;
-			rect.x = CELL_WIDTH * winCells[i].second;
-			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
-			rect.w = CELL_WIDTH;
-			rect.h = CELL_HEIGHT;
-
-			RenderImage("img/winO.png", rect);
-		}
-	}
-	else if (state == X_WON_STATE) {
-		cntXwin++;
-
-		for (int i = 0; i < 5; i++) {
-			SDL_Rect rect;
-			rect.x = CELL_WIDTH * winCells[i].second;
-			rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * winCells[i].first;
-			rect.w = CELL_WIDTH;
-			rect.h = CELL_HEIGHT;
-
-			RenderImage("img/winX.png", rect);
-		}
-	}
-
-	SDL_RenderPresent(gRenderer);
-
-	SDL_Delay(300);
-
-	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
-	SDL_RenderClear(gRenderer);
-
-	SDL_Rect rect = { 25, 150, 450, 170 };
-	if (state == X_WON_STATE) {
-		RenderImage("img/xwin.png", rect);
-	}
-	else if (state == O_WON_STATE) {
-		RenderImage("img/owin.png", rect);
-	}
-	else RenderImage("img/tie.png", rect);
-	return_.RenderButton();
-	continue_.RenderButton();
-	SDL_RenderPresent(gRenderer);
-
-
-	Mix_PlayChannel(-1, gChunk_over, 0);
+	Game::RenderEndStage();
 
 }
 
