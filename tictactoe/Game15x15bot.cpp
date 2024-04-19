@@ -193,16 +193,16 @@ int Game15x15bot::value(bool isBotTurn) {
 							}
 							else if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_X) {
 								if (curR == 2) point = 0;
-								else point = pow(10, curR - 2) + 1;
+								else point = pow(10, curR - 2) + 2;
 							}
 							else if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
 								board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) {
 								point = pow(10, curR - 1);
 							}
-							else point = pow(10, curR - 2) + 1;
+							else point = pow(10, curR - 2) + 2;
 
 							break;
-						}
+						}	
 						//o X
 
 						else if (board[i + di[k] * m][j + dj[k] * m] == PLAYER_X) curR++;
@@ -210,7 +210,15 @@ int Game15x15bot::value(bool isBotTurn) {
 
 					if (!block) {
 
-						if (curR == 1) point = 0;
+						if (curR == 1) {
+							if (checkinside(i - 5 * di[k], j - 5 * dj[k]) &&
+								board[i - di[k]][j - dj[k]] == EMPTY &&
+								board[i - 2 * di[k]][j - 2 * dj[k]] == EMPTY &&
+								board[i - 3 * di[k]][j - 3 * dj[k]] == EMPTY && 
+								board[i - 4 * di[k]][j - 4 * dj[k]] == EMPTY &&
+								board[i - 5 * di[k]][j - 5 * dj[k]] == EMPTY ) point = 1;
+							else point = 0;
+						}
 						else if (curR == 2) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
@@ -229,13 +237,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) {
 								//O|XXX__|O
 								if (!checkinside(i - di[k], j - dj[k]) ||
-									board[i - di[k]][j - dj[k]] == PLAYER_O) point = pow(10, curR - 2) + 1;
+									board[i - di[k]][j - dj[k]] == PLAYER_O) point = pow(10, curR - 2) + 2;
 								//_|X_XX_|O
 								else point = pow(10, curR - 1);
 
 							}
 							//_|X___X|O
-							else  point = pow(10, curR - 2) + 1;
+							else  point = pow(10, curR - 2) + 2;
 
 						}
 
@@ -245,9 +253,9 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
 								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, curR - 1);
-								else point = pow(10, curR - 2) + 2;
+								else point = pow(10, curR - 2) + 3;
 							}
-							else point = pow(10, curR - 2) + 1;
+							else point = pow(10, curR - 2) + 2;
 
 						}
 					}
@@ -274,13 +282,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							}
 							else if (board[i + di[k] * (m - 1)][j + dj[k] * (m - 1)] == PLAYER_O) {
 								if (curR == 2) point = 0;
-								else point = pow(10, curR - 2) + 1;
+								else point = pow(10, curR - 2) + 2;
 							}
 							else if (checkinside(i - di[k] * 2, j - dj[k] * 2) &&
 								board[i - di[k] * 2][j - dj[k] * 2] == EMPTY) {
 								point = pow(10, curR - 1);
 							}
-							else point = pow(10, curR - 2) + 1;
+							else point = pow(10, curR - 2) + 2;
 
 							break;
 						}
@@ -291,7 +299,15 @@ int Game15x15bot::value(bool isBotTurn) {
 
 					if (!block) {
 
-						if (curR == 1) point = 0;
+						if (curR == 1) {
+							if (checkinside(i - 5 * di[k], j - 5 * dj[k]) &&
+								board[i - di[k]][j - dj[k]] == EMPTY &&
+								board[i - 2 * di[k]][j - 2 * dj[k]] == EMPTY &&
+								board[i - 3 * di[k]][j - 3 * dj[k]] == EMPTY &&
+								board[i - 4 * di[k]][j - 4 * dj[k]] == EMPTY &&
+								board[i - 5 * di[k]][j - 5 * dj[k]] == EMPTY) point = 1;
+							else point = 0;
+						}
 						else if (curR == 2) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
@@ -310,13 +326,13 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) {
 								//O|XXX__|O
 								if (!checkinside(i - di[k], j - dj[k]) ||
-									board[i - di[k]][j - dj[k]] == PLAYER_X) point = pow(10, curR - 2) + 1;
+									board[i - di[k]][j - dj[k]] == PLAYER_X) point = pow(10, curR - 2) + 2;
 								//_|X_XX_|O
 								else point = pow(10, curR - 1);
 
 							}
 							//_|X___X|O
-							else  point = pow(10, curR - 2) + 1;
+							else  point = pow(10, curR - 2) + 2;
 
 						}
 
@@ -326,9 +342,9 @@ int Game15x15bot::value(bool isBotTurn) {
 							if (checkinside(i - di[k], j - dj[k]) &&
 								board[i - di[k]][j - dj[k]] == EMPTY) {
 								if (board[i + 4 * di[k]][j + 4 * dj[k]] == EMPTY) point = pow(10, curR - 1);
-								else point = pow(10, curR - 2) + 2;
+								else point = pow(10, curR - 2) + 3;
 							}
-							else point = pow(10, curR - 2) + 1;
+							else point = pow(10, curR - 2) + 2;
 
 						}
 					}
