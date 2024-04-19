@@ -112,6 +112,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 								y = i;
 								int score = minimax(depth, false, INT_MIN, INT_MAX);
 								board[i][j] = EMPTY;
+								std::cout << score << std::endl;
 								if (res <= score) res = score;
 								else {
 									x = tmpX;
@@ -121,7 +122,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 						}
 					}
 
-					std::cout << res << std::endl;
+					std::cout << "final score:"<< res << std::endl;
 
 					board[y][x] = PLAYER_O;
 					player = PLAYER_X;

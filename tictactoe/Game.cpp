@@ -363,6 +363,21 @@ void Game::RenderEndStage() {
 		}
 	}
 
+	else if (state = TIE_STATE) {
+		for (int i = 0; i < N; i++) {
+			for (int j = 0; j < N; j++) {
+				SDL_Rect rect;
+				rect.x = CELL_WIDTH * i;
+				rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * j;
+				rect.w = CELL_WIDTH;
+				rect.h = CELL_HEIGHT;
+
+				if(board[j][i] == PLAYER_X) RenderImage("img/tieX.png", rect);
+				else RenderImage("img/tieO.png", rect);
+			}
+		}
+	}
+
 	SDL_RenderPresent(gRenderer);
 
 	SDL_Delay(300);
