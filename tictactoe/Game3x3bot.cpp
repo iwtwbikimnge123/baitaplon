@@ -76,20 +76,9 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
 
 			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
-				std::string displaytime = "00:" + std::to_string(timer);
-				Text timetext;
-				if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
-					std::cout << SDL_GetError();
-					return;
-				}
-				timetext.SetColor(red);
-				timetext.SetText(displaytime);
-
+				
 				RenderRunningstate();
 
-				if (player == PLAYER_X) {
-					timetext.RenderText(80, 120);
-				}
 				SDL_RenderPresent(gRenderer);
 
 				SDL_RenderClear(gRenderer);
@@ -273,9 +262,88 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 }
 
 void Game3x3bot::RenderRunningstate() {
-	Game3x3::RenderRunningstate();
+	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+	SDL_RenderClear(gRenderer);
+	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, boardColor.a);
+
+	SDL_Rect rect;
+
+	rect.x = 0;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH;
+	rect.w = rect.h = SCREEN_WIDTH;
+
+	SDL_RenderFillRect(gRenderer, &rect);
+
+	rect.x = 50;
+	rect.y = 67;
+	rect.w = 120;
+	rect.h = 50;
+	if (player == PLAYER_X) {
+		RenderImage("img/logoX2.png", rect);
+		rect.x = 325;
+		RenderImage("img/logoO.png", rect);
+	}
+	else {
+		RenderImage("img/logoX.png", rect);
+		rect.x = 325;
+		RenderImage("img/logoO2.png", rect);
+	}
+
+	//point
+	Text xPoint;
+	Text oPoint;
+	if (!xPoint.OpenFont(21, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	xPoint.SetText(std::to_string(cntXwin));
+	xPoint.SetColor(white);
+	xPoint.RenderText(132, 80);
+
+	if (!oPoint.OpenFont(21, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	oPoint.SetText(std::to_string(cntOwin));
+	oPoint.SetColor(white);
+	oPoint.RenderText(345, 80);
+
+	//board
+	DrawGrid();
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (board[i][j] == PLAYER_X) DrawXCell(j, i);
+			else if (board[i][j] == PLAYER_O) DrawOCell(j, i);
+		}
+	}
+	rect.x = CELL_WIDTH * x;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * y;
+	rect.w = CELL_WIDTH;
+	rect.h = CELL_HEIGHT;
+
+	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+	SDL_RenderDrawRect(gRenderer, &rect);
+
+	//button
+	home.RenderButton();
+	speaker.RenderButton();
+
+	//time
+	std::string displaytime = "00:" + std::to_string(timer);
+	Text timetext;
+	if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	timetext.SetColor(red);
+	timetext.SetText(displaytime);
+
+	if (player == PLAYER_X) {
+		timetext.RenderText(80, 120);
+	}
 	
-	SDL_Rect rect = { 295, 10, 170, 45 };
+	//nut level
+	rect = { 295, 10, 170, 45 };
 	RenderImage("img/nut9.png", rect);
 
 	if (gameLevelStatus == 1) {

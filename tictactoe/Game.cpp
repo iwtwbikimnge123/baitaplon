@@ -81,36 +81,10 @@ void Game::logic(SDL_Event& e, bool& quit) {
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
-			
 
 			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
-				std::string displaytime = "00:" + std::to_string(timer);
-				Text timetext;
-				if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
-					std::cout << SDL_GetError();
-					return;
-				}
-				timetext.SetColor(red);
-				timetext.SetText(displaytime);
-
-				Text otherTime;
-				if (!otherTime.OpenFont(15, "img/gamecuben.ttf")) {
-					std::cout << SDL_GetError();
-					return;
-				}
-				otherTime.SetColor(grey);
-				otherTime.SetText("00:45");
 
 				RenderRunningstate();
-
-				if (player == PLAYER_X) {
-					timetext.RenderText(80, 120);
-					otherTime.RenderText(360, 120);
-				}
-				else {
-					timetext.RenderText(360, 120);
-					otherTime.RenderText(80, 120);
-				}
 
 				SDL_RenderPresent(gRenderer);
 
@@ -278,6 +252,7 @@ void Game::RenderRunningstate() {
 		RenderImage("img/logoO2.png", rect);
 	}
 
+	//point
 	Text xPoint;
 	Text oPoint;
 	if (!xPoint.OpenFont(21, "img/gamecuben.ttf")) {
@@ -296,6 +271,7 @@ void Game::RenderRunningstate() {
 	oPoint.SetColor(white);
 	oPoint.RenderText(345, 80);
 
+	//board
 	DrawGrid();
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -311,8 +287,36 @@ void Game::RenderRunningstate() {
 	SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 	SDL_RenderDrawRect(gRenderer, &rect);
 
+	//button
 	home.RenderButton();
 	speaker.RenderButton();
+
+	//time
+	std::string displaytime = "00:" + std::to_string(timer);
+	Text timetext;
+	if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	timetext.SetColor(red);
+	timetext.SetText(displaytime);
+
+	Text otherTime;
+	if (!otherTime.OpenFont(15, "img/gamecuben.ttf")) {
+		std::cout << SDL_GetError();
+		return;
+	}
+	otherTime.SetColor(grey);
+	otherTime.SetText("00:45");
+
+	if (player == PLAYER_X) {
+		timetext.RenderText(80, 120);
+		otherTime.RenderText(360, 120);
+	}
+	else {
+		timetext.RenderText(360, 120);
+		otherTime.RenderText(80, 120);
+	}
 }
 
 void Game::DrawXCell(const int& i, const int& j) {
