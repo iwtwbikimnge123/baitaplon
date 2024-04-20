@@ -89,11 +89,12 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				}
 				else if (player == PLAYER_O) {
 					int res = INT_MIN;
+					std::vector<std::pair<int, int>> sameRes;
 
 					for (int i = 0; i < N; i++) {
 						for (int j = 0; j < N; j++) {
 							if (board[i][j] == EMPTY) {
-								board[i][j] = PLAYER_O;
+								board[i][j] = PLAYER_O; 
 								int tmpX = x;
 								int tmpY = y;
 								x = j;
@@ -101,7 +102,15 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 								int score = minimax(depth, false, INT_MIN, INT_MAX);
 								board[i][j] = EMPTY;
 								std::cout << score << std::endl;
-								if (res < score) res = score;
+								if (res == score) {
+									sameRes.push_back(std::make_pair(i, j));
+								}
+								else if (res < score) {
+									res = score;
+									std::vector<std::pair<int, int>> emptyVector;
+									sameRes = emptyVector;
+									sameRes.push_back(std::make_pair(i, j));
+								}
 								else {
 									x = tmpX;
 									y = tmpY;
@@ -111,7 +120,10 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					}
 
 					std::cout << "final score:"<< res << std::endl;
-
+					srand(time(NULL));
+					int num = rand() % sameRes.size();
+					y = sameRes[num].first;
+					x = sameRes[num].second;
 					board[y][x] = PLAYER_O;
 					player = PLAYER_X;
 				}

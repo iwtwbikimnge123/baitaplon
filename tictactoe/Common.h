@@ -6,6 +6,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
+#include <vector>
 
 extern SDL_Window* gWindow;
 extern SDL_Renderer* gRenderer;
