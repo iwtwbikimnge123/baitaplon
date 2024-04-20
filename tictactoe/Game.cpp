@@ -4,6 +4,7 @@ Game::Game() {
 	N = CELL_HEIGHT = CELL_WIDTH = 0;
 	cntXwin = cntOwin = 0;
 	x = y = -1;
+	timer = 45;
 
 	continue_.SetButtonType(CONTINUE);
 	continue_.SetPath();
@@ -80,7 +81,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
-			int timer = 45;
+			
 
 			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
 				std::string displaytime = "00:" + std::to_string(timer);

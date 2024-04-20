@@ -53,6 +53,7 @@ protected:
 	int cntOwin;
 	int x;
 	int y;
+	int timer;
 
 	Button continue_;
 	Button return_;

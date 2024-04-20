@@ -74,7 +74,6 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 	while (menuType != STARTMENU && !quit) {
 		if (state == RUNNING_STATE) {
 			Uint32 starttime = SDL_GetTicks() / 1000;
-			int timer = 45;
 
 			while (!quit && state == RUNNING_STATE && menuType != STARTMENU) {
 				std::string displaytime = "00:" + std::to_string(timer);
