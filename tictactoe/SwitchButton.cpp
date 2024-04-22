@@ -1,4 +1,5 @@
 #include "SwitchButton.h"
+
 Button::Button(){
 	buttonType = CHOOSEPLAYER_1;
 	rect = { 0, 0, 0, 0 };
@@ -54,6 +55,12 @@ void Button::SetPath() {
 		break;
 	case SWITCHLEVEL_HARD:
 		path = "img/hard.png";
+		break;
+	case NO:
+		path = "img/no.png";
+		break;
+	case YES:
+		path = "img/yes.png";
 		break;
 	}
 }

@@ -5,9 +5,12 @@ class Game3x3bot : public Game3x3 {
 protected:
 	int gameLevelStatus;
 	int depth;
+
 	Button base;
 	Button chooseLevelMedium;
 	Button chooseLevelHard;
+	Button no;
+	Button yes;
 public:
 	Game3x3bot();
 	int minimax(int depth_, bool isBotTurn, int alpha, int beta);

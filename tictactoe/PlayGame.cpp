@@ -27,7 +27,6 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 		SDL_RenderClear(gRenderer);
 
 		game.RenderRunningstate();
-
 		eachMove.RenderText(137, 350);
 		click_start.RenderText(175, 375);
 		

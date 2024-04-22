@@ -15,6 +15,14 @@ Game3x3bot::Game3x3bot():Game3x3() {
 	chooseLevelHard.SetButtonType(SWITCHLEVEL_HARD);
 	chooseLevelHard.SetPath();
 	chooseLevelHard.SetRect(377, 15, 85, 35);
+
+	yes.SetButtonType(YES);
+	yes.SetPath();
+	yes.SetRect(110, 400, 120, 49);//
+
+	no.SetButtonType(NO);
+	no.SetPath();
+	no.SetRect(260, 400, 120, 49);//
 }
 
 int Game3x3bot::minimax(int depth_, bool isBotTurn, int alpha, int beta) {
@@ -182,6 +190,51 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(chooseLevelMedium.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 2) {
 
+
+				//check yes no
+				SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+				SDL_RenderClear(gRenderer);
+
+				RenderRunningstate();
+				DrawGrid();
+				yes.RenderButton();
+				no.RenderButton();
+				SDL_RenderPresent(gRenderer);
+
+				bool isContinue = false;
+				while (!quit) {
+
+					bool isBreak = false;
+					while (SDL_PollEvent(&e)) {
+
+						if (e.type == SDL_QUIT) {
+							quit = true;
+							return;
+						}
+						else if (e.type == SDL_MOUSEBUTTONDOWN) {
+							if (CheckClick(yes.GetRect(), e.button.x, e.button.y)) {
+								isBreak = true;
+								break;
+							}
+							else if (CheckClick(no.GetRect(), e.button.x, e.button.y)) {
+								isBreak = true;
+								isContinue = true;
+								break;
+							}
+						}
+					}
+					if (isBreak) break;
+				}
+
+				if (isContinue) {
+
+					RenderRunningstate();
+					SDL_RenderPresent(gRenderer);
+					continue;
+				}
+
+
+				//render new level
 				Mix_PlayChannel(-1, gChunk_toggle, 0);
 
 				boardColor = green;
@@ -211,6 +264,8 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				cntOwin = cntXwin = 0;
 				timer = 45;
 				depth = 1;
+
+				InitBoard();
 			}
 			else if (CheckClick(chooseLevelHard.GetRect(), e.button.x, e.button.y) && gameLevelStatus == 1) {
 
@@ -242,6 +297,8 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				cntOwin = cntXwin = 0;
 				timer = 45;
 				depth = 2;
+
+				InitBoard();
 			}
 			else if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
 

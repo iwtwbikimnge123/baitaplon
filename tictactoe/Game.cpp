@@ -60,6 +60,18 @@ void Game::InitBoard() {
 }
 
 void Game::DrawGrid() {
+	//to bang
+	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, boardColor.a);
+
+	SDL_Rect rect;
+
+	rect.x = 0;
+	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH;
+	rect.w = rect.h = SCREEN_WIDTH;
+
+	SDL_RenderFillRect(gRenderer, &rect);
+
+	//ve grid
 	SDL_SetRenderDrawColor(gRenderer, 128, 128, 128, 255);
 	SDL_RenderDrawLine(gRenderer, 0, SCREEN_HEIGHT - SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT - SCREEN_WIDTH);
 
@@ -227,15 +239,8 @@ void Game::Click(int& timer) {
 void Game::RenderRunningstate() {
 	SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 	SDL_RenderClear(gRenderer);
-	SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, boardColor.a);
 
 	SDL_Rect rect;
-
-	rect.x = 0;
-	rect.y = SCREEN_HEIGHT - SCREEN_WIDTH;
-	rect.w = rect.h = SCREEN_WIDTH;
-
-	SDL_RenderFillRect(gRenderer, &rect);
 
 	rect.x = 50;
 	rect.y = 67;

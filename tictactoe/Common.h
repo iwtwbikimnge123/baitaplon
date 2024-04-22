@@ -75,6 +75,9 @@ enum ButtonType {
 	RETURN,
 	FOCUS_CONTINUE,
 	FOCUS_RETURN,
+
+	YES,
+	NO,
 };
 
 extern MenuType menuType;
