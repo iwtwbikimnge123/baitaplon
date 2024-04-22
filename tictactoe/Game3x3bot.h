@@ -9,8 +9,6 @@ protected:
 	Button base;
 	Button chooseLevelMedium;
 	Button chooseLevelHard;
-	Button no;
-	Button yes;
 public:
 	Game3x3bot();
 	int minimax(int depth_, bool isBotTurn, int alpha, int beta);

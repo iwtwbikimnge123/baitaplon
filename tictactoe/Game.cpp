@@ -30,6 +30,14 @@ Game::Game() {
 	speaker.SetPath();
 	speaker.SetRect(75, 10, 45, 45);
 
+	yes.SetButtonType(YES);
+	yes.SetPath();
+	yes.SetRect(110, 400, 120, 49);
+
+	no.SetButtonType(NO);
+	no.SetPath();
+	no.SetRect(260, 400, 120, 49);
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
 
