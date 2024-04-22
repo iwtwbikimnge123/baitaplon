@@ -235,10 +235,10 @@ int Game15x15bot::value(bool isBotTurn) {
 							board[i + di[k] * 5][j + dj[k] * 5] == PLAYER_O) {
 							//_|_____|O
 							if (board[i + di[k] * 4][j + dj[k] * 4] == EMPTY) {
-								//O|XXX__|O
+								// O|XXX__|O
 								if (!checkinside(i - di[k], j - dj[k]) ||
 									board[i - di[k]][j - dj[k]] == PLAYER_O) point = pow(10, curR - 2) + 2;
-								//_|X_XX_|O
+								//  _|X_XX_|O
 								else point = pow(10, curR - 1);
 
 							}
