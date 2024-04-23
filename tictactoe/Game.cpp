@@ -38,6 +38,10 @@ Game::Game() {
 	no.SetPath();
 	no.SetRect(260, 400, 120, 49);
 
+	replay.SetButtonType(REPLAY);
+	replay.SetPath();
+	replay.SetRect(400, 550, 50, 50);
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
 
@@ -108,7 +112,7 @@ void Game::logic(SDL_Event& e, bool& quit) {
 
 				SDL_RenderPresent(gRenderer);
 
-				HandleEvent(e, quit, timer);
+				HandleEvent(e, quit);
 
 				Uint32 finaltime = SDL_GetTicks() / 1000;
 				if (finaltime - starttime >= 1) {
@@ -127,6 +131,8 @@ void Game::logic(SDL_Event& e, bool& quit) {
 		if (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE) {
 			x = y = -1;
 			RenderEndStage();
+
+			Mix_PlayChannel(-1, gChunk_over, 0);
 		}
 		while (!quit && (state == X_WON_STATE || state == O_WON_STATE || state == TIE_STATE)) {
 			CheckClickWinMenu(e, quit);
@@ -233,7 +239,7 @@ bool Game::CheckTie() {
 	return true;
 }
 
-void Game::Click(int& timer) {
+void Game::Click() {
 	if (board[y][x] == EMPTY) {
 		timer = 45;
 		board[y][x] = player;
@@ -400,6 +406,11 @@ void Game::RenderEndStage() {
 
 	SDL_Delay(300);
 
+	RenderEndMenu();
+
+}
+
+void Game::RenderEndMenu() {
 	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
 	SDL_RenderClear(gRenderer);
 
@@ -411,12 +422,12 @@ void Game::RenderEndStage() {
 		RenderImage("img/owin.png", rect);
 	}
 	else RenderImage("img/tie.png", rect);
+
+
 	return_.RenderButton();
 	continue_.RenderButton();
+	replay.RenderButton();
 	SDL_RenderPresent(gRenderer);
-
-	Mix_PlayChannel(-1, gChunk_over, 0);
-
 }
 
 void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
@@ -441,6 +452,53 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 				InitBoard();
 			}
+			
+			else if (CheckClick(replay.GetRect(), e.button.x, e.button.y)) {
+
+				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+				SDL_RenderClear(gRenderer);
+				replay.SetRect(10, 10, 45, 45);
+				replay.RenderButton();
+
+				DrawGrid();
+
+				SDL_RenderPresent(gRenderer);
+
+				bool isContinue = false;
+				while (!quit){
+					
+					bool isBreak = false;
+					while (SDL_PollEvent(&e)) {
+						if (e.type == SDL_QUIT) {
+							quit = true;
+							return;
+						}
+
+						else if (e.type == SDL_MOUSEBUTTONDOWN) {
+							if (CheckClick(replay.GetRect(), e.button.x, e.button.y)){
+								isContinue = true;
+								isBreak = true;
+								break;
+							}
+						}
+						else {
+							//
+						}
+					}
+					if (isBreak) break;
+				}
+				if (isContinue) {
+					SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
+					SDL_RenderClear(gRenderer);
+
+					replay.SetRect(400, 550, 50, 50);
+
+					RenderEndMenu();
+					SDL_RenderPresent(gRenderer);
+					//
+					continue;
+				}
+			}
 		}
 		else if (e.type == SDL_MOUSEMOTION) {
 			if (CheckClick(focusReturn.GetRect(), e.motion.x, e.motion.y)) {
@@ -458,7 +516,7 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 	}
 }
 
-void Game::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
+void Game::HandleEvent(SDL_Event& e, bool& quit) {
 	while (SDL_PollEvent(&e)) {
 
 		SDL_RenderClear(gRenderer);
@@ -554,7 +612,7 @@ void Game::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 				x = e.button.x / CELL_WIDTH;
 				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
 
-				Click(timer);
+				Click();
 			}
 
 			if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {

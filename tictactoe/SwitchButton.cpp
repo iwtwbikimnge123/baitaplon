@@ -62,6 +62,9 @@ void Button::SetPath() {
 	case YES:
 		path = "img/yes.png";
 		break;
+	case REPLAY:
+		path = "img/replay.png";
+		break;
 	}
 }
 

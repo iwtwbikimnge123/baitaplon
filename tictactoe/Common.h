@@ -70,6 +70,7 @@ enum ButtonType {
 	HOME,
 	SPEAKER,
 	FOCUS_SPEAKER,
+	REPLAY,
 
 	CONTINUE,
 	RETURN,

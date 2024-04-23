@@ -22,7 +22,7 @@ public:
 
 	virtual void logic(SDL_Event& e, bool& quit);
 
-	virtual void Click(int& timer);
+	virtual void Click();
 
 	virtual bool CheckWinRow();
 
@@ -42,9 +42,11 @@ public:
 
 	virtual void RenderEndStage();
 
+	void RenderEndMenu();
+
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 
-	virtual void HandleEvent(SDL_Event& e, bool& quit, int& timer);
+	virtual void HandleEvent(SDL_Event& e, bool& quit);
 protected:
 	int N;
 	int CELL_WIDTH;
@@ -63,6 +65,7 @@ protected:
 	Button speaker;
 	Button no;
 	Button yes;
+	Button replay;
 
 	Player** board;
 	Player player;
@@ -71,4 +74,6 @@ protected:
 	SDL_Color boardColor;
 
 	std::pair <int, int> winCells[5];
+	std::vector<std::pair<int, int>> movesX;
+	std::vector<std::pair<int, int>> movesO;
 };
