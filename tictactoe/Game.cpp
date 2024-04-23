@@ -251,6 +251,9 @@ void Game::Click() {
 	if (board[y][x] == EMPTY) {
 		timer = 45;
 		board[y][x] = player;
+
+		moves.push_back(std::make_pair(std::make_pair(y, x), player));
+
 		ChangeTurn();
 
 		Mix_PlayChannel(-1, gChunk_click, 0);
@@ -456,6 +459,9 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 			}
 			else if (CheckClick(continue_.GetRect(), e.button.x, e.button.y)) {
 
+				std::vector <std::pair <std::pair <int, int>, Player>> emptyVector;
+				moves = emptyVector;
+
 				Mix_PlayChannel(-1, gChunk, 0);
 
 				InitBoard();
@@ -465,16 +471,27 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 				SDL_RenderClear(gRenderer);
+
+				//render button
 				replay.SetRect(10, 10, 45, 45);
 				replay.RenderButton();
 				next.RenderButton();
 				previous.RenderButton();
-
 				DrawGrid();
+
+				Mix_PlayChannel(-1, gChunk_click, 0);
+
+				//render first move
+				if (moves[0].second == PLAYER_O)
+					DrawOCell(moves[0].first.second, moves[0].first.first);
+				else DrawXCell(moves[0].first.second, moves[0].first.first);
 
 				SDL_RenderPresent(gRenderer);
 
+				//handle event
 				bool isContinue = false;
+				int curMove = 1;
+
 				while (!quit){
 					
 					bool isBreak = false;
@@ -486,13 +503,50 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
 							if (CheckClick(replay.GetRect(), e.button.x, e.button.y)){
+
 								isContinue = true;
 								isBreak = true;
 								break;
 							}
-						}
-						else {
-							//
+							else if (CheckClick(next.GetRect(), e.button.x, e.button.y)) {
+
+								Mix_PlayChannel(-1, gChunk_click, 0);
+
+								if (moves[curMove].second == PLAYER_O)
+									DrawOCell(moves[curMove].first.second, moves[curMove].first.first);
+								else DrawXCell(moves[curMove].first.second, moves[curMove].first.first);
+								curMove++;
+								SDL_RenderPresent(gRenderer);
+							}
+							else if (CheckClick(previous.GetRect(), e.button.x, e.button.y) && curMove > 0) {
+
+								Mix_PlayChannel(-1, gChunk_click, 0);
+
+								curMove--;
+
+								SDL_Rect rect;
+								rect.x = CELL_WIDTH * moves[curMove].first.second;
+								rect.y = SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * moves[curMove].first.first;
+								rect.w = CELL_WIDTH;
+								rect.h = CELL_HEIGHT;
+
+								SDL_SetRenderDrawColor(gRenderer, boardColor.r, boardColor.g, boardColor.b, 0);
+								SDL_RenderFillRect(gRenderer, &rect);
+
+								//ve lai grid vi bi de
+
+								SDL_SetRenderDrawColor(gRenderer, 128, 128, 128, 255);
+								SDL_RenderDrawLine(gRenderer, 0, SCREEN_HEIGHT - SCREEN_WIDTH, SCREEN_WIDTH, SCREEN_HEIGHT - SCREEN_WIDTH);
+
+								for (int i = 1; i < N; i++) {
+									SDL_RenderDrawLine(gRenderer, CELL_WIDTH * i, SCREEN_HEIGHT - SCREEN_WIDTH, CELL_WIDTH * i, SCREEN_HEIGHT);
+									for (int i = 1; i < N; i++) {
+										SDL_RenderDrawLine(gRenderer, 0, SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * i, SCREEN_WIDTH, SCREEN_HEIGHT - SCREEN_WIDTH + CELL_HEIGHT * i);
+									}
+								}
+
+								SDL_RenderPresent(gRenderer);
+							}
 						}
 					}
 					if (isBreak) break;
@@ -505,7 +559,6 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 					RenderEndMenu();
 					SDL_RenderPresent(gRenderer);
-					//
 					continue;
 				}
 			}

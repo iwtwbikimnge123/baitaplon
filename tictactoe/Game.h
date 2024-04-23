@@ -76,6 +76,5 @@ protected:
 	SDL_Color boardColor;
 
 	std::pair <int, int> winCells[5];
-	std::vector<std::pair<int, int>> movesX;
-	std::vector<std::pair<int, int>> movesO;
+	std::vector <std::pair <std::pair <int, int>, Player>> moves;
 };
