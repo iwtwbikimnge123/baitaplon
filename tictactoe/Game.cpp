@@ -469,7 +469,71 @@ void Game::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 		}
 		else if (e.type == SDL_MOUSEBUTTONDOWN) {
 			if (CheckClick(home.GetRect(), e.button.x, e.button.y)) {
+				//
+				Text deleteScore;
+				if (!deleteScore.OpenFont(15, "img/gamecuben.ttf")) {
+					std::cout << SDL_GetError();
+					return;
+				}
+				deleteScore.SetText("return to home will delete all the points");
+				deleteScore.SetColor(black);
 
+				Text areYouSure;
+				if (!areYouSure.OpenFont(18, "img/gamecuben.ttf")) {
+					std::cout << SDL_GetError();
+					return;
+				}
+				areYouSure.SetText("are you sure?");
+				areYouSure.SetColor(black);
+
+				//check yes no
+				SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
+				SDL_RenderClear(gRenderer);
+
+				RenderRunningstate();
+				DrawGrid();
+				yes.RenderButton();
+				no.RenderButton();
+				deleteScore.RenderText(35, 330);
+				areYouSure.RenderText(165, 360);
+
+				SDL_RenderPresent(gRenderer);
+
+				bool isContinue = false;
+				while (!quit) {
+
+					bool isBreak = false;
+					while (SDL_PollEvent(&e)) {
+
+						if (e.type == SDL_QUIT) {
+							quit = true;
+							return;
+						}
+						else if (e.type == SDL_MOUSEBUTTONDOWN) {
+							if (CheckClick(yes.GetRect(), e.button.x, e.button.y)) {
+								isBreak = true;
+								break;
+							}
+							else if (CheckClick(no.GetRect(), e.button.x, e.button.y)) {
+
+								Mix_PlayChannel(-1, gChunk, 0);
+
+								isBreak = true;
+								isContinue = true;
+								break;
+							}
+						}
+					}
+					if (isBreak) break;
+				}
+
+				if (isContinue) {
+
+					RenderRunningstate();
+					SDL_RenderPresent(gRenderer);
+					continue;
+				}
+				//
 				Mix_PlayChannel(-1, gChunk, 0);
 
 				menuType = STARTMENU;
