@@ -65,6 +65,12 @@ void Button::SetPath() {
 	case REPLAY:
 		path = "img/replay.png";
 		break;
+	case NEXT:
+		path = "img/next.png";
+		break;
+	case PREVIOUS:
+		path = "img/previous.png";
+		break;
 	}
 }
 

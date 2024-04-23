@@ -42,6 +42,14 @@ Game::Game() {
 	replay.SetPath();
 	replay.SetRect(400, 550, 50, 50);
 
+	next.SetButtonType(NEXT);
+	next.SetPath();
+	next.SetRect(160, 10, 80, 45);
+
+	previous.SetButtonType(PREVIOUS);
+	previous.SetPath();
+	previous.SetRect(70, 10, 80, 45);
+
 	player = PLAYER_X;
 	state = RUNNING_STATE;
 
@@ -459,6 +467,8 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 				SDL_RenderClear(gRenderer);
 				replay.SetRect(10, 10, 45, 45);
 				replay.RenderButton();
+				next.RenderButton();
+				previous.RenderButton();
 
 				DrawGrid();
 

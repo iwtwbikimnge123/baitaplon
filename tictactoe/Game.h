@@ -66,6 +66,8 @@ protected:
 	Button no;
 	Button yes;
 	Button replay;
+	Button next;
+	Button previous;
 
 	Player** board;
 	Player player;

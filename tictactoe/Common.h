@@ -79,6 +79,9 @@ enum ButtonType {
 
 	YES,
 	NO,
+
+	NEXT,
+	PREVIOUS,
 };
 
 extern MenuType menuType;
