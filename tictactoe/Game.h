@@ -42,7 +42,7 @@ public:
 
 	virtual void RenderEndStage();
 
-	void RenderEndMenu();
+	virtual void RenderEndMenu();
 
 	void CheckClickWinMenu(SDL_Event& e, bool& quit);
 
@@ -56,6 +56,7 @@ protected:
 	int x;
 	int y;
 	int timer;
+	int numOfmoves;
 
 	Button continue_;
 	Button return_;

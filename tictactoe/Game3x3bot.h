@@ -21,4 +21,5 @@ public:
 
 	void RenderRunningstate();
 	void RenderEndStage();
+	void RenderEndMenu();
 };

@@ -1,2 +1,3 @@
-﻿  Game.cpp
+﻿  Game3x3bot.cpp
+C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\baitaplon\tictactoe\Game3x3bot.cpp(127,16): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
   tictactoe.vcxproj -> C:\Users\Admin\OneDrive - National Economics University\Desktop\baitaplon\baitaplon\tictactoe\x64\Debug\tictactoe.exe

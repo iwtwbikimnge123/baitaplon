@@ -419,20 +419,7 @@ void Game15x15bot::RenderEndStage() {
 
 	SDL_Delay(300);
 
-	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
-	SDL_RenderClear(gRenderer);
-
-	SDL_Rect rect = { 25, 150, 450, 170 };
-	if (state == X_WON_STATE) {
-		RenderImage("img/youwin.png", rect);
-	}
-	else if (state == O_WON_STATE) {
-		RenderImage("img/youlose.png", rect);
-	}
-	else RenderImage("img/tie.png", rect);
-	return_.RenderButton();
-	continue_.RenderButton();
-	SDL_RenderPresent(gRenderer);
+	RenderEndMenu();
 
 	Mix_PlayChannel(-1, gChunk_over, 0);
 

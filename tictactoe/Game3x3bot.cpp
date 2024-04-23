@@ -3,6 +3,7 @@
 Game3x3bot::Game3x3bot():Game3x3() {
 	gameLevelStatus = 1;
 	depth = 1;
+	numOfmoves = 0;
 
 	base.SetButtonType(BASE);
 	base.SetPath();
@@ -90,6 +91,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					HandleEvent(e, quit, timer);
 				}
 				else if (player == PLAYER_O) {
+					//chon buoc toi uu
 					int res = INT_MIN;
 					std::vector<std::pair<int, int>> sameRes;
 
@@ -126,8 +128,13 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					int num = rand() % sameRes.size();
 					y = sameRes[num].first;
 					x = sameRes[num].second;
+
+					moves.push_back(std::make_pair(std::make_pair(y, x), player));
+
 					board[y][x] = PLAYER_O;
 					player = PLAYER_X;
+
+					numOfmoves++;
 				}
 				if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
 					if (player == PLAYER_O) state = X_WON_STATE;
@@ -146,9 +153,8 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				}
 
 				if (timer == 0) {
-					if (player == PLAYER_O) state = O_WON_STATE;
-					else state = X_WON_STATE;
-					break;
+					state = O_WON_STATE;
+					timer = 45;
 				}
 			}
 		}
@@ -167,6 +173,10 @@ void Game3x3bot::Click(int& timer) {
 	if (board[y][x] == EMPTY) {
 
 		Mix_PlayChannel(-1, gChunk_click, 0);
+
+		moves.push_back(std::make_pair(std::make_pair(y, x), player));
+
+		numOfmoves++;
 
 		timer = 45;
 		player = PLAYER_O;
@@ -622,6 +632,13 @@ void Game3x3bot::RenderEndStage() {
 
 	SDL_Delay(300);
 
+	RenderEndMenu();
+
+	Mix_PlayChannel(-1, gChunk_over, 0);
+
+}
+
+void Game3x3bot::RenderEndMenu() {
 	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
 	SDL_RenderClear(gRenderer);
 
@@ -633,11 +650,12 @@ void Game3x3bot::RenderEndStage() {
 		RenderImage("img/youlose.png", rect);
 	}
 	else RenderImage("img/tie.png", rect);
+
 	return_.RenderButton();
 	continue_.RenderButton();
-	SDL_RenderPresent(gRenderer);
+	replay.RenderButton();
 
-	Mix_PlayChannel(-1, gChunk_over, 0);
+	SDL_RenderPresent(gRenderer);
 
 }
 

@@ -91,21 +91,6 @@ void Game3x3::RenderEndStage() {
 
 	SDL_Delay(300);
 
-	SDL_SetRenderDrawColor(gRenderer, 176, 224, 208, 0);
-	SDL_RenderClear(gRenderer);
-
-	SDL_Rect rect = { 25, 150, 450, 170 };
-	if (state == X_WON_STATE) {
-		RenderImage("img/xwin.png", rect);
-	}
-	else if (state == O_WON_STATE) {
-		RenderImage("img/owin.png", rect);
-	}
-	else RenderImage("img/tie.png", rect);
-	return_.RenderButton();
-	continue_.RenderButton();
-	SDL_RenderPresent(gRenderer);
-
-	Mix_PlayChannel(-1, gChunk_over, 0);
+	RenderEndMenu();
 
 }

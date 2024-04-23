@@ -5,6 +5,7 @@ Game::Game() {
 	cntXwin = cntOwin = 0;
 	x = y = -1;
 	timer = 45;
+	numOfmoves = 0;
 
 	continue_.SetButtonType(CONTINUE);
 	continue_.SetPath();
@@ -73,7 +74,15 @@ Game::~Game() {
 void Game::InitBoard() {
 	board = new Player * [N];
 	for (int i = 0; i < N; i++) board[i] = new Player[N];
+
+	winCells[0] = std::make_pair(-1, -1);
+	winCells[1] = std::make_pair(-1, -1);
+	winCells[2] = std::make_pair(-1, -1);
+	winCells[3] = std::make_pair(-1, -1);
+	winCells[4] = std::make_pair(-1, -1);
 	state = RUNNING_STATE;
+	numOfmoves = 0;
+
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) board[i][j] = EMPTY;
 	}
@@ -250,6 +259,7 @@ bool Game::CheckTie() {
 void Game::Click() {
 	if (board[y][x] == EMPTY) {
 		timer = 45;
+		numOfmoves++;
 		board[y][x] = player;
 
 		moves.push_back(std::make_pair(std::make_pair(y, x), player));
@@ -508,7 +518,7 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 								isBreak = true;
 								break;
 							}
-							else if (CheckClick(next.GetRect(), e.button.x, e.button.y)) {
+							else if (CheckClick(next.GetRect(), e.button.x, e.button.y) && curMove < numOfmoves) {
 
 								Mix_PlayChannel(-1, gChunk_click, 0);
 

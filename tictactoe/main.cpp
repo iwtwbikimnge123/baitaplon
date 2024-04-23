@@ -35,8 +35,6 @@ int main(int argc, char* argv[])
 			menuStart.RestartMenu();
 			break;
 		}
-		
-		
 	}
 	std::cout << 1;
 	Close();
