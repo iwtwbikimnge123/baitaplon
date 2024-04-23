@@ -152,10 +152,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					starttime = SDL_GetTicks() / 1000;
 				}
 
-				if (timer == 0) {
-					state = O_WON_STATE;
-					timer = 45;
-				}
+				if (timer == 0) state = O_WON_STATE;
 			}
 		}
 

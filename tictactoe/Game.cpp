@@ -82,6 +82,7 @@ void Game::InitBoard() {
 	winCells[4] = std::make_pair(-1, -1);
 	state = RUNNING_STATE;
 	numOfmoves = 0;
+	timer = 45;
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) board[i][j] = EMPTY;
@@ -477,7 +478,7 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 				InitBoard();
 			}
 			
-			else if (CheckClick(replay.GetRect(), e.button.x, e.button.y)) {
+			else if (CheckClick(replay.GetRect(), e.button.x, e.button.y) && numOfmoves > 0) {
 
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 				SDL_RenderClear(gRenderer);
