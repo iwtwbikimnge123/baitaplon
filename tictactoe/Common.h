@@ -24,6 +24,7 @@ const SDL_Color green = { 144, 238, 144, 0 };
 const SDL_Color black = { 0, 0, 0, 0 };
 const SDL_Color grey = { 128, 128, 128, 0 };
 const SDL_Color lightRed = { 255, 192, 203, 0};
+const SDL_Color blue = { 0, 0, 255, 0 };
 
 
 const int SCREEN_WIDTH = 495;

@@ -483,6 +483,15 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 				SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 0);
 				SDL_RenderClear(gRenderer);
 
+				Text replayText;
+				if (!replayText.OpenFont(35, "img/gamecuben.ttf")) {
+					std::cout << SDL_GetError();
+					return;
+				}
+				replayText.SetText("replay mode");
+				replayText.SetColor(blue);
+				replayText.RenderText(110, 70);
+
 				//render button
 				replay.SetRect(10, 10, 45, 45);
 				replay.RenderButton();
@@ -506,7 +515,24 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 				while (!quit){
 					
 					bool isBreak = false;
+					
+
+					if (curMove == 0) {
+						RenderImage("img/previous1.png", previous.GetRect());
+						SDL_RenderPresent(gRenderer);
+					}
+					else if (curMove == numOfmoves) {
+						RenderImage("img/next1.png", next.GetRect());
+						SDL_RenderPresent(gRenderer);
+					}
+					else {
+						next.RenderButton();
+						previous.RenderButton();
+						SDL_RenderPresent(gRenderer);
+					}
+
 					while (SDL_PollEvent(&e)) {
+						
 						if (e.type == SDL_QUIT) {
 							quit = true;
 							return;
@@ -559,6 +585,33 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 								SDL_RenderPresent(gRenderer);
 							}
 						}
+						/*
+						else if (e.type == SDL_MOUSEMOTION) {
+							if (CheckClick(next.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/next1.png", next.GetRect());
+							}
+							else if (CheckClick(previous.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/previous1.png", previous.GetRect());
+							}
+							else if (CheckClick(replay.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/replay1.png", replay.GetRect());
+							}
+							else {
+								next.RenderButton();
+								previous.RenderButton();
+								replay.RenderButton();
+							}
+							SDL_RenderPresent(gRenderer);
+						}
+
+						if (curMove == 0) {
+							
+						}
+						else if (curMove == numOfmoves) {
+							RenderImage("img/next1.png", next.GetRect());
+							SDL_RenderPresent(gRenderer);
+						}
+						*/
 					}
 					if (isBreak) break;
 				}
@@ -578,23 +631,30 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 			if (CheckClick(focusReturn.GetRect(), e.motion.x, e.motion.y)) {
 				focusReturn.RenderButton();
 			}
+			
 			else if (CheckClick(focusContinue.GetRect(), e.motion.x, e.motion.y)) {
 				focusContinue.RenderButton();
 			}
+
+			else if (CheckClick(replay.GetRect(), e.motion.x, e.motion.y)) {
+				SDL_Rect rect = replay.GetRect();
+				RenderImage("img/replay1.png", rect);
+			}
+			
 			else {
 				return_.RenderButton();
 				continue_.RenderButton();
+				replay.RenderButton();
 			}
 			SDL_RenderPresent(gRenderer);
 		}
+		
 	}
 }
 
 void Game::HandleEvent(SDL_Event& e, bool& quit) {
 	while (SDL_PollEvent(&e)) {
 
-		SDL_RenderClear(gRenderer);
-		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		if (e.type == SDL_QUIT) {
 			quit = true;
 			return;

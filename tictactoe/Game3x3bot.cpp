@@ -233,6 +233,9 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 						}
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
 							if (CheckClick(yes.GetRect(), e.button.x, e.button.y)) {
+
+								x = y = -1;
+
 								isBreak = true;
 								break;
 							}
@@ -333,6 +336,9 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 						}
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
 							if (CheckClick(yes.GetRect(), e.button.x, e.button.y)) {
+
+								x = y = -1;
+
 								isBreak = true;
 								break;
 							}

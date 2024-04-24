@@ -305,6 +305,7 @@ void MenuStart::HandleEvent(SDL_Event& e, bool& quit) {
 				focusSpeaker.RenderButton();
 				SDL_RenderPresent(gRenderer);
 			}
+
 			else {
 				speaker.RenderButton();
 				start.RenderButton();
