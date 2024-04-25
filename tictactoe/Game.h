@@ -16,6 +16,10 @@ public:
 		CELL_WIDTH = CELL_HEIGHT = SCREEN_WIDTH / N;
 	}
 
+	void SetTimeForEachMove(const int& n) {
+		timeForEachMove = n;
+	}
+
 	void InitBoard();
 
 	void ChangeTurn();
@@ -56,12 +60,11 @@ protected:
 	int x;
 	int y;
 	int timer;
+	int timeForEachMove;
 	int numOfmoves;
 
 	Button continue_;
 	Button return_;
-	Button focusContinue;
-	Button focusReturn;
 	Button home;
 	Button speaker;
 	Button no;

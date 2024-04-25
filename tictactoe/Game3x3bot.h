@@ -12,12 +12,13 @@ protected:
 public:
 	Game3x3bot();
 	int minimax(int depth_, bool isBotTurn, int alpha, int beta);
+	virtual int value1();
 	virtual int value(bool isBotTurn);
 
 	void logic(SDL_Event& e, bool& quit);
-	void Click(int& timer);
+	void Click();
 
-	void HandleEvent(SDL_Event& e, bool& quit, int& timer);
+	void HandleEvent(SDL_Event& e, bool& quit);
 
 	void RenderRunningstate();
 	void RenderEndStage();

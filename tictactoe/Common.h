@@ -55,7 +55,6 @@ enum MenuType {
 
 enum ButtonType {
 	START,
-	FOCUSSTART,
 
 	BASE,
 
@@ -70,13 +69,10 @@ enum ButtonType {
 
 	HOME,
 	SPEAKER,
-	FOCUS_SPEAKER,
 	REPLAY,
 
 	CONTINUE,
 	RETURN,
-	FOCUS_CONTINUE,
-	FOCUS_RETURN,
 
 	YES,
 	NO,

@@ -6,6 +6,8 @@ public:
 
 	int value(bool isBotTurn);
 
+	int value1();
+
 	bool checkinside(int i, int j) {
 		if (i < 0 || j < 0 || i >= N || j >= N) return false;
 		return true;

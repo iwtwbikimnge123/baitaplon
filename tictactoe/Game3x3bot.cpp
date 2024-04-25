@@ -88,7 +88,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 
 				if (player == PLAYER_X) {
-					HandleEvent(e, quit, timer);
+					HandleEvent(e, quit);
 				}
 				else if (player == PLAYER_O) {
 					//chon buoc toi uu
@@ -166,7 +166,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 	}
 }
 
-void Game3x3bot::Click(int& timer) {
+void Game3x3bot::Click() {
 	if (board[y][x] == EMPTY) {
 
 		Mix_PlayChannel(-1, gChunk_click, 0);
@@ -181,7 +181,7 @@ void Game3x3bot::Click(int& timer) {
 	}
 }
 
-void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
+void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit) {
 	while (SDL_PollEvent(&e)) {
 
 		if (e.type == SDL_QUIT) {
@@ -247,6 +247,19 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 								isContinue = true;
 								break;
 							}
+						}
+						else if (e.type == SDL_MOUSEMOTION) {
+							if (CheckClick(yes.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/yes1.png", yes.GetRect());
+							}
+							else if (CheckClick(no.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/no1.png", no.GetRect());
+							}
+							else {
+								yes.RenderButton();
+								no.RenderButton();
+							}
+							SDL_RenderPresent(gRenderer);
 						}
 					}
 					if (isBreak) break;
@@ -351,6 +364,19 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 								break;
 							}
 						}
+						else if (e.type == SDL_MOUSEMOTION) {
+							if (CheckClick(yes.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/yes1.png", yes.GetRect());
+							}
+							else if (CheckClick(no.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/no1.png", no.GetRect());
+							}
+							else {
+								yes.RenderButton();
+								no.RenderButton();
+							}
+							SDL_RenderPresent(gRenderer);
+						}
 					}
 					if (isBreak) break;
 				}
@@ -449,6 +475,19 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 								break;
 							}
 						}
+						else if (e.type == SDL_MOUSEMOTION) {
+							if (CheckClick(yes.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/yes1.png", yes.GetRect());
+							}
+							else if (CheckClick(no.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/no1.png", no.GetRect());
+							}
+							else {
+								yes.RenderButton();
+								no.RenderButton();
+							}
+							SDL_RenderPresent(gRenderer);
+						}
 					}
 					if (isBreak) break;
 				}
@@ -479,7 +518,7 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit, int& timer) {
 			else if (e.button.y >= (SCREEN_HEIGHT - SCREEN_WIDTH)) {
 				x = e.button.x / CELL_WIDTH;
 				y = (e.button.y - (SCREEN_HEIGHT - SCREEN_WIDTH)) / CELL_HEIGHT;
-				Click(timer);
+				Click();
 			}
 
 			RenderRunningstate();
@@ -668,4 +707,8 @@ int Game3x3bot::value(bool isBotTurn) {
 		else return INT_MAX;
 	}
 	else return 0;
+}
+
+int Game3x3bot::value1() {
+	return 1;
 }

@@ -22,6 +22,7 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 
 		Game game;
 		game.SetN(15);
+		game.SetTimeForEachMove(45);
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
@@ -67,11 +68,12 @@ void PlayGame(const int& n, SDL_Event& e, bool& quit) {
 			std::cout << SDL_GetError();
 			return;
 		}
-		eachMove.SetText("45s for each move");
+		eachMove.SetText("10s for each move");
 		eachMove.SetColor(black);
 
 		Game3x3 game;
 		game.SetN(3);
+		game.SetTimeForEachMove(10);
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
@@ -121,12 +123,13 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 			std::cout << SDL_GetError();
 			return;
 		}
-		eachMove.SetText("45s for each move");
+		eachMove.SetText("10s for each move");
 		eachMove.SetColor(black);
 
 
 		Game3x3bot game;
 		game.SetN(3);
+		game.SetTimeForEachMove(10);
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);
@@ -179,6 +182,8 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 
 		Game15x15bot game;
 		game.SetN(15);
+
+		game.SetTimeForEachMove(45);
 		game.InitBoard();
 		SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
 		SDL_RenderClear(gRenderer);

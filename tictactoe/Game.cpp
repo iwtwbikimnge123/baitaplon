@@ -4,24 +4,16 @@ Game::Game() {
 	N = CELL_HEIGHT = CELL_WIDTH = 0;
 	cntXwin = cntOwin = 0;
 	x = y = -1;
-	timer = 45;
+	timer = timeForEachMove;
 	numOfmoves = 0;
 
 	continue_.SetButtonType(CONTINUE);
 	continue_.SetPath();
 	continue_.SetRect(132, 350, 230, 90);
 
-	focusContinue.SetButtonType(FOCUS_CONTINUE);
-	focusContinue.SetPath();
-	focusContinue.SetRect(132, 350, 230, 90);
-
 	return_.SetButtonType(RETURN);
 	return_.SetPath();
 	return_.SetRect(132, 450, 230, 90);
-
-	focusReturn.SetButtonType(FOCUS_RETURN);
-	focusReturn.SetPath();
-	focusReturn.SetRect(132, 450, 230, 90);
 
 	home.SetButtonType(HOME);
 	home.SetPath();
@@ -82,7 +74,7 @@ void Game::InitBoard() {
 	winCells[4] = std::make_pair(-1, -1);
 	state = RUNNING_STATE;
 	numOfmoves = 0;
-	timer = 45;
+	timer = timeForEachMove;
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) board[i][j] = EMPTY;
@@ -259,7 +251,7 @@ bool Game::CheckTie() {
 
 void Game::Click() {
 	if (board[y][x] == EMPTY) {
-		timer = 45;
+		timer = timeForEachMove;
 		numOfmoves++;
 		board[y][x] = player;
 
@@ -348,7 +340,7 @@ void Game::RenderRunningstate() {
 		return;
 	}
 	otherTime.SetColor(grey);
-	otherTime.SetText("00:45");
+	otherTime.SetText("00:" + std::to_string(timeForEachMove));
 
 	if (player == PLAYER_X) {
 		timetext.RenderText(80, 120);
@@ -603,14 +595,6 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 							}
 							SDL_RenderPresent(gRenderer);
 						}
-
-						if (curMove == 0) {
-							
-						}
-						else if (curMove == numOfmoves) {
-							RenderImage("img/next1.png", next.GetRect());
-							SDL_RenderPresent(gRenderer);
-						}
 						*/
 					}
 					if (isBreak) break;
@@ -628,17 +612,16 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 			}
 		}
 		else if (e.type == SDL_MOUSEMOTION) {
-			if (CheckClick(focusReturn.GetRect(), e.motion.x, e.motion.y)) {
-				focusReturn.RenderButton();
+			if (CheckClick(return_.GetRect(), e.motion.x, e.motion.y)) {
+				RenderImage("img/return2.png", return_.GetRect());
 			}
 			
-			else if (CheckClick(focusContinue.GetRect(), e.motion.x, e.motion.y)) {
-				focusContinue.RenderButton();
+			else if (CheckClick(continue_.GetRect(), e.motion.x, e.motion.y)) {
+				RenderImage("img/continue2.png", continue_.GetRect());
 			}
 
 			else if (CheckClick(replay.GetRect(), e.motion.x, e.motion.y)) {
-				SDL_Rect rect = replay.GetRect();
-				RenderImage("img/replay1.png", rect);
+				RenderImage("img/replay1.png", replay.GetRect());
 			}
 			
 			else {
@@ -715,6 +698,19 @@ void Game::HandleEvent(SDL_Event& e, bool& quit) {
 								break;
 							}
 						}
+						else if (e.type == SDL_MOUSEMOTION) {
+							if (CheckClick(yes.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/yes1.png", yes.GetRect());
+							}
+							else if (CheckClick(no.GetRect(), e.motion.x, e.motion.y)) {
+								RenderImage("img/no1.png", no.GetRect());
+							}
+							else {
+								yes.RenderButton();
+								no.RenderButton();
+							}
+							SDL_RenderPresent(gRenderer);
+						}
 					}
 					if (isBreak) break;
 				}
@@ -761,5 +757,20 @@ void Game::HandleEvent(SDL_Event& e, bool& quit) {
 			RenderRunningstate();
 			SDL_RenderPresent(gRenderer);
 		}
+		/*
+		else if (e.type == SDL_MOUSEMOTION) {
+			if (CheckClick(speaker.GetRect(), e.motion.x, e.motion.y)) {
+				RenderImage("img/speaker1.png", speaker.GetRect());
+			}
+			else if (CheckClick(home.GetRect(), e.motion.x, e.motion.y)) {
+				RenderImage("img/home1.png", home.GetRect());
+			}
+			else {
+				speaker.RenderButton();
+				home.RenderButton();
+			}
+			SDL_RenderPresent(gRenderer);
+		}
+		*/
 	}
 }
