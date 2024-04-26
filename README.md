@@ -144,11 +144,11 @@ cũng có chức năng đúng như tên gọi của nó.
 <a name="thuattoan"></a>
 ## Về thuật toán cho Bot 
 Sử dụng thuật toán minimax với cắt tỉa alpha, beta tìm hiểu trên Youtube và tra Google.
-### Thuật toán Minimax
+### 1. Thuật toán Minimax
 Là một thuật toán đệ quy áp dụng cho các loại cờ đánh theo lượt như cờ vua, cờ tướng, cờ caro, cờ vây,... nhằm tìm kiếm nước tốt nhất tiếp theo dựa trên giả sử rằng đối thủ cũng đi nước tốt nhất.
-### Cắt tỉa Alpha, Beta
+### 2. Cắt tỉa Alpha, Beta
 Nhằm loại bỏ các nhánh trong cây trò chơi mà kết quả xấu không cần thiết xét thêm.
-### Hàm đánh giá
+### 3. Hàm đánh giá
 - Do là một thuật toán dạng đệ quy, quay lui nên độ phức tạp rất lớn để xét hết các trường hợp đến tận trạng thái kết thúc game thì máy sẽ bị đơ (trừ trường hợp với những game đơn giản như caro 3x3), do đó cần có một độ sâu để giới hạn, khi độ sâu bằng 0, hàm minimax sẽ trả về value()- hàm đánh giá trạng thái hiện tại của bàn cờ.
 - Hàm đánh giá là rất quan trọng, có thể cho ta biết được độ mạnh của một con bot.
 - Code hàm đánh giá 3x3:
@@ -382,7 +382,7 @@ int Game15x15bot::value(bool isBotTurn) {
   * Với medium thì độ sâu là 0 tức là chỉ đánh thử 1 nước để đánh giá nên chặn yếu, lắm lúc chỉ biết công.
 
   * Với hard thì độ sâu là 1, có thể công thủ, chặn và tạo nước đôi rất hay.
-### Hàm void chooseBestMove():
+### 4. Hàm void chooseBestMove():
 - Hàm này dùng để chọn ra nước đi tốt nhất cho bot.
 - Đánh thử các nước vào những ô EMPTY và đánh giá điểm bằng thuật toán minimax lưu vào biến score.
 - Những nước đi có điểm cao nhất (trước đấy đã được push vào 1 vector) sẽ được random để chọn bất kì 1 nước và cập nhật bảng, đổi lượt.
