@@ -129,6 +129,7 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 
 		Game3x3bot game;
 		game.SetN(3);
+		game.SetDepth(1);
 		game.SetDepthMedium(1);
 		game.SetDepthHard(-1);
 		game.SetTimeForEachMove(10);
@@ -184,6 +185,7 @@ void PlayGameBot(const int& n, SDL_Event& e, bool& quit) {
 
 		Game15x15bot game;
 		game.SetN(15);
+		game.SetDepth(0);
 		game.SetDepthMedium(0);
 		game.SetDepthHard(1);
 		game.SetTimeForEachMove(45);

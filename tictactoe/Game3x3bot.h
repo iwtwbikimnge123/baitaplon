@@ -13,6 +13,9 @@ protected:
 	Button chooseLevelHard;
 public:
 	Game3x3bot();
+	void SetDepth(const int& n) {
+		depth = n;
+	}
 	void SetDepthMedium(const int& n) {
 		depthMedium = n;
 	}
