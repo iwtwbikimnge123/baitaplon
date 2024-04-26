@@ -390,3 +390,5 @@ int Game15x15bot::value(bool isBotTurn) {
   <a name="dohoa"></a>
   ## Về đồ họa 
   Các nút và hình nền đều là tự thiết kế bằng phần mềm Canva.
+  ## Kết
+  Game vẫn còn phải cải thiện.
