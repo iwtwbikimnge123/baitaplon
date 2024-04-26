@@ -4,6 +4,9 @@ Họ và tên: Trương Văn Hải
 Mã SV: 23020058
 
 [Demo trên Youtube](https://www.youtube.com/watch?v=mbdVYFveGfI)
+## Cách tải game
+- Tải game được nén thành file .rar tại link https://github.com/iwtwbikimnge123/baitaplon/releases/tag/release.
+- Giải nén và chạy file tictactoe.exe để chơi.
 ## Mục lục
  - [Kiến thức áp dụng để làm game](#kienthuc)
  - [Giới thiệu về game](#gioithieu)
@@ -361,13 +364,17 @@ const int dj[4] = { -1, 0, 1, 1 };
 	return val;
 }
   
-  Hàm này duyệt cả bàn cờ, đến ô có X hay O sẽ xét 4 hướng (không xét 4 hướng kia vì nó đã được xét ở những ô khác EMPTY trước) và 5 ô liên tiếp, điểm là biến point sẽ được cộng vào điểm tổng val nếu là O(bot) hoặc bị trừ vào val nếu là X(người chơi) sau mỗi hướng.
+  * Hàm này duyệt cả bàn cờ, đến ô có X hay O sẽ xét 4 hướng (không xét 4 hướng kia vì nó đã được xét ở những ô khác EMPTY trước) và 5 ô liên tiếp, điểm là biến point sẽ được cộng vào điểm tổng val nếu là O(bot) hoặc bị trừ vào val nếu là X(người chơi) sau mỗi hướng.
 
-  Có hai công thức tính cho 2 trường hợp liên tiếp (biến curR là số ô liên tiếp): liên tiếp chặn 1 đầu nhưng vẫn có khả năng tạo nước 5: pow(10, curR - 2) + 2 và liên tiếp không bị chặn: pow(10, curR - 1), có những trường hợp lợi thế vừa với công thức: pow(10, curR - 2) + 3, ngoài ra còn trường hợp curR = 1 cho điểm khi có xu hướng ở giữa bàn và xung quanh không bị chặn để nước đi đầu được chuẩn hơn, và curR = 5 thì cho 100000000 cho nó to.
+  * Có hai công thức tính cho 2 trường hợp liên tiếp (biến curR là số ô liên tiếp):
+     + Liên tiếp chặn 1 đầu nhưng vẫn có khả năng tạo nước 5: pow(10, curR - 2) + 2.
+     + Liên tiếp không bị chặn: pow(10, curR - 1).
+     + Có những trường hợp lợi thế vừa vừa với công thức: pow(10, curR - 2) + 3.
+     + Ngoài ra còn trường hợp curR = 1 cho điểm khi có xu hướng ở giữa bàn và xung quanh không bị chặn để nước đi đầu được chuẩn hơn, và curR = 5 thì cho 100000000 cho nó to.
 
-  Với medium thì độ sâu là 0 tức là chỉ đánh thử 1 nước để đánh giá nên chặn yếu, lắm lúc chỉ biết công.
+  * Với medium thì độ sâu là 0 tức là chỉ đánh thử 1 nước để đánh giá nên chặn yếu, lắm lúc chỉ biết công.
 
-  Với hard thì độ sâu là 1, có thể công thủ, chặn và tạo nước đôi rất hay.
+  * Với hard thì độ sâu là 1, có thể công thủ, chặn và tạo nước đôi rất hay.
   <a name="dohoa"></a>
   ## Về đồ họa 
   Các nút và hình nền đều là tự thiết kế bằng phần mềm Canva.
