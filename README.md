@@ -16,7 +16,7 @@ Mã SV: 23020058
  - [Về thuật toán cho Bot](#thuattoan)
  - [Về đồ họa](#dohoa)
    
-   ============================================================
+============================================================================================
 <a name="kienthuc"></a>
 ## Kiến thức áp dụng để làm game 
 - Kiến thức về ngôn ngữ C++, thư viện đồ họa SDL2 qua slide LTNC, lazyfoo, Youtube.
@@ -133,7 +133,7 @@ cũng có chức năng đúng như tên gọi của nó.
    Kế thừa từ Game, định nghĩa lại các hàm checkwin, void RenderEndStage().
 - Game3x3bot:
    * Kế thừa từ Game3x3, định nghĩa lại các hàm void logic(SDL_Event& e, bool& quit), void Click(), void HandleEvent(SDL_Event& e, bool& quit), void RenderRunningstate(), void RenderEndStage(), void RenderEndMenu().
-   * Các hàm: int minimax(int depth_, bool isBotTurn, int alpha, int beta), virtual int value(bool isBotTurn): giải thích dưới.
+   * Các hàm: int minimax(int depth_, bool isBotTurn, int alpha, int beta), virtual int value(bool isBotTurn), void chooseBestMove(): giải thích kĩ hơn [ở dưới](#thuattoan).
    * void SetDepthMedium(const int& n), void SetDepthHard(const int& n): Set độ sâu cho các chế độ.
 - Game15x15bot:
    * Kế thừa từ Game3x3bot: dùng các hàm checkwin của Game, định nghĩa lại void RenderEndStage();
@@ -153,11 +153,17 @@ Nhằm loại bỏ các nhánh trong cây trò chơi mà kết quả xấu khôn
 - Hàm đánh giá là rất quan trọng, có thể cho ta biết được độ mạnh của một con bot.
 - Code hàm đánh giá 3x3:
 
-  int Game3x3bot::value(bool isBotTurn) {
+
+
+int Game3x3bot::value(bool isBotTurn) {
+
 	if (CheckWinCol() || CheckWinRow() || CheckWinDiag1() || CheckWinDiag2()) {
+ 
 		if (isBotTurn) return INT_MIN;
 		else return INT_MAX;
+  
 	}
+ 
 	else return 0;
 }
 
@@ -168,10 +174,11 @@ Với 3x3 chế độ medium thì độ sâu là 1, chế độ hard thì độ 
 
   
 const int di[4] = { 1, 1, 1, 0 };
+
 const int dj[4] = { -1, 0, 1, 1 };
 
-  int Game15x15bot::value(bool isBotTurn) {
-	
+int Game15x15bot::value(bool isBotTurn) {
+
 	int val = 0;
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < N; j++) {
@@ -375,6 +382,11 @@ const int dj[4] = { -1, 0, 1, 1 };
   * Với medium thì độ sâu là 0 tức là chỉ đánh thử 1 nước để đánh giá nên chặn yếu, lắm lúc chỉ biết công.
 
   * Với hard thì độ sâu là 1, có thể công thủ, chặn và tạo nước đôi rất hay.
+### Hàm void chooseBestMove():
+- Hàm này dùng để chọn ra nước đi tốt nhất cho bot.
+- Đánh thử các nước vào những ô EMPTY và đánh giá điểm bằng thuật toán minimax lưu vào biến score.
+- Những nước đi có điểm cao nhất (trước đấy đã được push vào 1 vector) sẽ được random để chọn bất kì 1 nước và cập nhật bảng, đổi lượt.
+- Nếu không random các nước thì đối với 1 thế cờ nhất định, bot sẽ chỉ đánh 1 nước cố định, dẫn đến việc các nước đi của bot sẽ vô cùng dễ đoán, người chơi chỉ cần tìm ra một lộ trình dẫn đến chiến thắng thì lần chơi tiếp cứ đánh như vậy là thắng.
   <a name="dohoa"></a>
   ## Về đồ họa 
   Các nút và hình nền đều là tự thiết kế bằng phần mềm Canva.
