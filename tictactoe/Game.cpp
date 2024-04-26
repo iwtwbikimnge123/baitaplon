@@ -325,7 +325,9 @@ void Game::RenderRunningstate() {
 	speaker.RenderButton();
 
 	//time
-	std::string displaytime = "00:" + std::to_string(timer);
+	std::string displaytime;
+	if (timer < 10) displaytime = "00:0" + std::to_string(timer);
+	else displaytime = "00:" + std::to_string(timer);
 	Text timetext;
 	if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
 		std::cout << SDL_GetError();
@@ -532,6 +534,8 @@ void Game::CheckClickWinMenu(SDL_Event& e, bool& quit) {
 
 						else if (e.type == SDL_MOUSEBUTTONDOWN) {
 							if (CheckClick(replay.GetRect(), e.button.x, e.button.y)){
+
+								Mix_PlayChannel(-1, gChunk, 0);
 
 								isContinue = true;
 								isBreak = true;

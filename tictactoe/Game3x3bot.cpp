@@ -2,7 +2,7 @@
 
 Game3x3bot::Game3x3bot():Game3x3() {
 	gameLevelStatus = 1;
-	depth = 1;
+	depth = depthMedium;
 	numOfmoves = 0;
 
 	base.SetButtonType(BASE);
@@ -92,47 +92,7 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 				}
 				else if (player == PLAYER_O) {
 					//chon buoc toi uu
-					int res = INT_MIN;
-					std::vector<std::pair<int, int>> sameRes;
-
-					for (int i = 0; i < N; i++) {
-						for (int j = 0; j < N; j++) {
-							if (board[i][j] == EMPTY) {
-								board[i][j] = PLAYER_O; 
-								int tmpX = x;
-								int tmpY = y;
-								x = j;
-								y = i;
-								int score = minimax(depth, false, INT_MIN, INT_MAX);
-								board[i][j] = EMPTY;
-								std::cout << score << std::endl;
-								if (res == score) {
-									sameRes.push_back(std::make_pair(i, j));
-								}
-								else if (res < score) {
-									res = score;
-									std::vector<std::pair<int, int>> emptyVector;
-									sameRes = emptyVector;
-									sameRes.push_back(std::make_pair(i, j));
-								}
-								else {
-									x = tmpX;
-									y = tmpY;
-								}
-							}
-						}
-					}
-
-					std::cout << "final score:"<< res << std::endl;
-					srand(time(NULL));
-					int num = rand() % sameRes.size();
-					y = sameRes[num].first;
-					x = sameRes[num].second;
-
-					moves.push_back(std::make_pair(std::make_pair(y, x), player));
-
-					board[y][x] = PLAYER_O;
-					player = PLAYER_X;
+					chooseBestMove();
 
 					numOfmoves++;
 				}
@@ -152,7 +112,14 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 					starttime = SDL_GetTicks() / 1000;
 				}
 
-				if (timer == 0) state = O_WON_STATE;
+				if (timer == 0) {
+					state = O_WON_STATE;
+					winCells[0] = std::make_pair(-1, -1);
+					winCells[1] = std::make_pair(-1, -1);
+					winCells[2] = std::make_pair(-1, -1);
+					winCells[3] = std::make_pair(-1, -1);
+					winCells[4] = std::make_pair(-1, -1);
+				}
 			}
 		}
 
@@ -166,6 +133,58 @@ void Game3x3bot::logic(SDL_Event& e, bool& quit) {
 	}
 }
 
+void Game3x3bot::chooseBestMove() {
+	int res = INT_MIN;
+
+	std::vector<std::pair<int, int>> sameRes;
+
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			if (board[i][j] == EMPTY) {
+				board[i][j] = PLAYER_O;
+				int tmpX = x;
+				int tmpY = y;
+				x = j;
+				y = i;
+
+				int score = minimax(depth, false, INT_MIN, INT_MAX);
+				board[i][j] = EMPTY;
+				std::cout << score << std::endl;
+
+
+				if (res == score) {
+					sameRes.push_back(std::make_pair(i, j));
+				}
+
+				else if (res < score) {
+					res = score;
+
+					std::vector<std::pair<int, int>> emptyVector;
+					sameRes = emptyVector;
+					sameRes.push_back(std::make_pair(i, j));
+
+				}
+				else {
+					x = tmpX;
+					y = tmpY;
+				}
+			}
+		}
+	}
+
+	std::cout << "final score:" << res << " " <<depth << std::endl;
+
+	srand(time(NULL));
+	int num = rand() % sameRes.size();
+	y = sameRes[num].first;
+	x = sameRes[num].second;
+
+	moves.push_back(std::make_pair(std::make_pair(y, x), player));
+
+	board[y][x] = PLAYER_O;
+	player = PLAYER_X;
+}
+
 void Game3x3bot::Click() {
 	if (board[y][x] == EMPTY) {
 
@@ -175,7 +194,7 @@ void Game3x3bot::Click() {
 
 		numOfmoves++;
 
-		timer = 45;
+		timer = timeForEachMove;
 		player = PLAYER_O;
 		board[y][x] = PLAYER_X;
 	}
@@ -301,8 +320,8 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit) {
 				}
 				gameLevelStatus = 1;
 				cntOwin = cntXwin = 0;
-				timer = 45;
-				depth = 1;
+				timer = timeForEachMove;
+				depth = depthMedium;
 
 				InitBoard();
 			}
@@ -415,8 +434,8 @@ void Game3x3bot::HandleEvent(SDL_Event& e, bool& quit) {
 				}
 				gameLevelStatus = 2;
 				cntOwin = cntXwin = 0;
-				timer = 45;
-				depth = 2;
+				timer = timeForEachMove;
+				depth = depthHard;
 
 				InitBoard();
 			}
@@ -595,7 +614,9 @@ void Game3x3bot::RenderRunningstate() {
 	speaker.RenderButton();
 
 	//time
-	std::string displaytime = "00:" + std::to_string(timer);
+	std::string displaytime;
+	if (timer < 10) displaytime = "00:0" + std::to_string(timer);
+	else displaytime = "00:" + std::to_string(timer);
 	Text timetext;
 	if (!timetext.OpenFont(15, "img/gamecuben.ttf")) {
 		std::cout << SDL_GetError();
@@ -707,8 +728,4 @@ int Game3x3bot::value(bool isBotTurn) {
 		else return INT_MAX;
 	}
 	else return 0;
-}
-
-int Game3x3bot::value1() {
-	return 1;
 }
